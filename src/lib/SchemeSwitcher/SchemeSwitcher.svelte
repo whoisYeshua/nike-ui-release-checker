@@ -3,68 +3,61 @@
 	import darkSvg from './dark.svg';
 	import lightSvg from './light.svg';
 
-	let scheme = $state<'auto' | 'dark' | 'light'>('auto');
+	type Scheme = 'auto' | 'dark' | 'light';
 
-	$inspect(scheme);
+	const schemes = [
+		{ value: 'light', label: 'Light theme', icon: lightSvg },
+		{ value: 'auto', label: 'System theme', icon: autoSvg },
+		{ value: 'dark', label: 'Dark theme', icon: darkSvg }
+	];
+
+	const schemeFromLocalStorage = localStorage.getItem('color-scheme') as Scheme | null;
+	let scheme = $state<Scheme>(schemeFromLocalStorage ?? 'auto');
+
+	$effect(() => {
+		const colorScheme = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+		const lightThemeColor = document.querySelector<HTMLMetaElement>(
+			'meta[name="theme-color"][data-id="light"]'
+		);
+		const darkThemeColor = document.querySelector<HTMLMetaElement>(
+			'meta[name="theme-color"][data-id="dark"]'
+		);
+
+		if (scheme === 'auto') {
+			localStorage.removeItem('color-scheme');
+			colorScheme?.setAttribute('content', 'light dark');
+			lightThemeColor?.setAttribute('media', '(prefers-color-scheme: light)');
+			darkThemeColor?.setAttribute('media', '(prefers-color-scheme: dark)');
+		} else {
+			localStorage.setItem('color-scheme', scheme);
+			colorScheme?.setAttribute('content', scheme);
+			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all');
+			darkThemeColor?.setAttribute('media', scheme === 'dark' ? 'all' : 'not all');
+		}
+	});
 </script>
 
 <fieldset class="switcher">
-	<label class="switcher__label" tabindex="-1">
-		<input
-			type="radio"
-			class="switcher__radio"
-			name="color-scheme"
-			bind:group={scheme}
-			value="light"
-			aria-label="Light theme"
-		/>
-		<img
-			class="switcher__icon svg"
-			src={lightSvg}
-			width="24px"
-			height="24px"
-			title="Light theme"
-			alt="Light theme"
-		/>
-	</label>
-
-	<label class="switcher__label" tabindex="-1">
-		<input
-			type="radio"
-			class="switcher__radio"
-			name="color-scheme"
-			bind:group={scheme}
-			value="auto"
-			aria-label="System theme"
-			checked
-		/>
-		<img
-			class="switcher__icon svg"
-			src={autoSvg}
-			width="24px"
-			height="24px"
-			title="System theme"
-			alt="System theme"
-		/>
-	</label>
-	<label class="switcher__label" tabindex="-1">
-		<input
-			type="radio"
-			class="switcher__radio"
-			name="color-scheme"
-			bind:group={scheme}
-			value="dark"
-			aria-label="Dark theme"
-		/>
-		<img
-			class="switcher__icon svg"
-			src={darkSvg}
-			width="24px"
-			height="24px"
-			title="Dark theme"
-			alt="Dark theme"
-		/>
-	</label>
+	{#each schemes as { value, label, icon } (value)}
+		<label class="switcher__label" tabindex="-1">
+			<input
+				type="radio"
+				class="switcher__radio"
+				name="color-scheme"
+				bind:group={scheme}
+				{value}
+				aria-label={label}
+			/>
+			<img
+				class="switcher__icon svg"
+				src={icon}
+				width="24px"
+				height="24px"
+				title={label}
+				alt={label}
+			/>
+		</label>
+	{/each}
 </fieldset>
 
 <style>
@@ -80,8 +73,9 @@
 
 		background-color: var(--strong-grey);
 
-		&:focus-within {
-			box-shadow: 0px 0px 0px 2px var(--white);
+		&:has(:focus-visible) {
+			outline: 0.125rem solid light-dark(var(--black), var(--white));
+			outline-offset: 0.125rem;
 		}
 	}
 
@@ -119,5 +113,12 @@
 
 	.switcher__radio:checked + .switcher__icon {
 		filter: invert(0);
+	}
+
+	.svg {
+		-webkit-user-select: none;
+		user-select: none;
+		-webkit-user-drag: none;
+		user-drag: none;
 	}
 </style>
