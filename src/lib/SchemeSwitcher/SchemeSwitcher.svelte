@@ -48,14 +48,7 @@
 				{value}
 				aria-label={label}
 			/>
-			<img
-				class="switcher__icon svg"
-				src={icon}
-				width="24px"
-				height="24px"
-				title={label}
-				alt={label}
-			/>
+			<img class="switcher__icon" src={icon} width="24px" height="24px" title={label} alt={label} />
 		</label>
 	{/each}
 </fieldset>
@@ -115,7 +108,7 @@
 		filter: invert(0);
 	}
 
-	.svg {
+	img {
 		-webkit-user-select: none;
 		user-select: none;
 		-webkit-user-drag: none;

@@ -20,12 +20,13 @@
 }
 
 :root {
-	font-family: 'Trade Gothic', Helvetica, sans-serif;
-
-	color: light-dark(#213547, #ffffffde);
-	background-color: light-dark(#ffffff, #242424);
-
 	--black: #161716;
 	--white: #f7f7f7;
 	--strong-grey: #6d6d6d;
+
+	--bg: light-dark(#ffffff, #242424);
+	font-family: 'Trade Gothic', Helvetica, sans-serif;
+
+	color: light-dark(#213547, #ffffffde);
+	background-color: var(--bg);
 }
