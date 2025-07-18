@@ -10,7 +10,7 @@
 <style>
 	@keyframes headerShadow {
 		to {
-			box-shadow: 0 2px var(--divider);
+			box-shadow: 0 2px var(--divider-color);
 		}
 	}
 
@@ -20,7 +20,7 @@
 		top: 0;
 		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
-		box-shadow: 0 2px var(--divider);
+		box-shadow: 0 2px var(--divider-color);
 
 		background-color: var(--bg);
 		padding-inline: calc(50% - 838px);

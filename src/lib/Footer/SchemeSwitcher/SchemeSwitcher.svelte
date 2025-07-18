@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useHaptic } from '../utils/use-haptic.svelte';
+	import { useHaptic } from '../../utils/use-haptic.svelte';
 	import autoSvg from './auto.svg';
 	import darkSvg from './dark.svg';
 	import lightSvg from './light.svg';
@@ -68,13 +68,17 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 0.75rem;
 		border: none;
-		border-radius: 16px;
+		border-radius: var(--border-radius);
 		padding: 0.375rem;
 
-		&:has(:focus-visible),
-		&:hover {
-			@media (hover: hover) {
-				outline: 0.125rem solid light-dark(var(--black), var(--white));
+		&:has(:focus-visible) {
+			outline: 0.125rem solid var(--focus-ring-color);
+			outline-offset: 0.125rem;
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				outline: 0.125rem solid var(--focus-ring-color);
 				outline-offset: 0.125rem;
 			}
 		}
@@ -99,9 +103,9 @@
 
 		&:checked {
 			outline: none;
-			border-radius: 16px;
+			border-radius: var(--border-radius);
 
-			background-color: light-dark(var(--black), var(--white));
+			background-color: var(--icon-color);
 			width: 28px;
 			height: 28px;
 		}
