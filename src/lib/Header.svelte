@@ -4,7 +4,7 @@
 
 <header>
 	<img src={logoSvg} width="50px" height="35px" alt="SNKRS Logo" />
-	<h1>NIKE RELEASE CHECKER</h1>
+	<h1>Nike release checker</h1>
 </header>
 
 <style>
@@ -23,12 +23,11 @@
 		box-shadow: 0 2px var(--divider);
 
 		background-color: var(--bg);
-		padding-inline: 1.5rem;
+		padding-inline: calc(50% - 838px);
 		padding-block: 1rem;
 
-		@media (width <= 640px) {
-			grid-template-columns: 1fr auto;
-			padding-inline: 1rem;
+		@media (width <= 1760px) {
+			padding-inline: 1.5rem;
 		}
 
 		@media (width >= 1024px) {
@@ -40,6 +39,11 @@
 				animation-timeline: scroll();
 				animation-timing-function: linear;
 			}
+		}
+
+		@media (width <= 640px) {
+			grid-template-columns: 1fr auto;
+			padding-inline: 1rem;
 		}
 	}
 
@@ -55,7 +59,8 @@
 
 	h1 {
 		grid-column: 2;
-		font-size: 1.5rem;
-		line-height: calc(1.5rem + 4px);
+		font-size: 1.75rem;
+		line-height: calc(1.75rem + 4px);
+		text-transform: uppercase;
 	}
 </style>

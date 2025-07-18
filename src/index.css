@@ -12,7 +12,6 @@
 }
 
 /* Helvetica Neue Regular */
-
 @font-face {
 	src: url('./assets/fonts/HelveticaNeue.woff2') format('woff2');
 	font-family: 'Helvetica Neue';
@@ -29,4 +28,10 @@
 	background-color: var(--bg);
 	color: light-dark(#213547, #ffffffde);
 	font-family: 'Trade Gothic', Helvetica, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	transition: background-color 0.2s;
 }

@@ -1,25 +1,12 @@
 <script lang="ts">
 	import Footer from './lib/Footer.svelte';
 	import Header from './lib/Header.svelte';
+	import Main from './lib/Main.svelte';
 </script>
 
 <div class="wrapper">
 	<Header />
-	<main>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-		<div style="width: 180px; height: 180px; background-color: red"></div>
-	</main>
+	<Main />
 	<Footer />
 </div>
 
