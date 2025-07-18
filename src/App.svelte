@@ -1,6 +1,6 @@
 <script lang="ts">
+	import Footer from './lib/Footer.svelte';
 	import Header from './lib/Header.svelte';
-	import SchemeSwitcher from './lib/SchemeSwitcher/SchemeSwitcher.svelte';
 </script>
 
 <div class="wrapper">
@@ -20,9 +20,7 @@
 		<div style="width: 180px; height: 180px; background-color: red"></div>
 		<div style="width: 180px; height: 180px; background-color: red"></div>
 	</main>
-	<footer>
-		<SchemeSwitcher />
-	</footer>
+	<Footer />
 </div>
 
 <style>

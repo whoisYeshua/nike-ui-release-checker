@@ -4,29 +4,29 @@
 
 /* Trade Gothic */
 @font-face {
-	font-weight: bold;
-	font-family: 'Trade Gothic';
 	font-style: normal;
+	font-weight: bold;
 	src: url('./assets/fonts/TradeGothic.woff2') format('woff2');
+	font-family: 'Trade Gothic';
 	font-display: swap;
 }
 
 /* Helvetica Neue Regular */
 
 @font-face {
-	font-family: 'Helvetica Neue';
 	src: url('./assets/fonts/HelveticaNeue.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
 	font-display: swap;
 }
 
 :root {
-	--black: #161716;
+	--black: #242424;
 	--white: #f7f7f7;
-	--strong-grey: #6d6d6d;
 
-	--bg: light-dark(#ffffff, #242424);
-	font-family: 'Trade Gothic', Helvetica, sans-serif;
+	--divider: light-dark(#e5e5e5, #303030);
+	--bg: light-dark(var(--white), var(--black));
 
-	color: light-dark(#213547, #ffffffde);
 	background-color: var(--bg);
+	color: light-dark(#213547, #ffffffde);
+	font-family: 'Trade Gothic', Helvetica, sans-serif;
 }

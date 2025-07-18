@@ -10,32 +10,32 @@
 <style>
 	@keyframes headerShadow {
 		to {
-			box-shadow: 0 2px 0 light-dark(#e5e5e5, #303030);
+			box-shadow: 0 2px var(--divider);
 		}
 	}
 
 	header {
+		display: grid;
 		position: sticky;
 		top: 0;
-		padding-inline: 1.5rem;
-		padding-block: 1rem;
-		display: grid;
 		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
+		box-shadow: 0 2px var(--divider);
 
 		background-color: var(--bg);
-		box-shadow: 0 2px 0 light-dark(#e5e5e5, #303030);
+		padding-inline: 1.5rem;
+		padding-block: 1rem;
 
 		@media (width <= 640px) {
-			padding-inline: 1rem;
 			grid-template-columns: 1fr auto;
+			padding-inline: 1rem;
 		}
 
 		@media (width >= 1024px) {
 			@supports (animation-timeline: auto) {
-				box-shadow: 0 2px 0 transparent;
 				animation-fill-mode: both;
 				animation-name: headerShadow;
+				box-shadow: 0 2px transparent;
 				animation-range: 0 100px;
 				animation-timeline: scroll();
 				animation-timing-function: linear;
@@ -50,6 +50,7 @@
 		user-select: none;
 		-webkit-user-drag: none;
 		user-drag: none;
+		-webkit-touch-callout: none;
 	}
 
 	h1 {

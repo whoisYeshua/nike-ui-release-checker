@@ -22,13 +22,16 @@
 		const darkThemeColor = document.querySelector<HTMLMetaElement>(
 			'meta[name="theme-color"][data-id="dark"]'
 		);
+		const rootHtmlElement = document.documentElement;
 
 		if (scheme === 'auto') {
+			rootHtmlElement.classList = '';
 			localStorage.removeItem('color-scheme');
 			colorScheme?.setAttribute('content', 'light dark');
 			lightThemeColor?.setAttribute('media', '(prefers-color-scheme: light)');
 			darkThemeColor?.setAttribute('media', '(prefers-color-scheme: dark)');
 		} else {
+			rootHtmlElement.classList = scheme;
 			localStorage.setItem('color-scheme', scheme);
 			colorScheme?.setAttribute('content', scheme);
 			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all');
@@ -60,15 +63,16 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 8px;
-		padding: 6px;
 		border: none;
 		border-radius: 16px;
+		padding: 6px;
 
-		background-color: var(--strong-grey);
-
-		&:has(:focus-visible) {
-			outline: 0.125rem solid light-dark(var(--black), var(--white));
-			outline-offset: 0.125rem;
+		&:has(:focus-visible),
+		&:hover {
+			@media (hover: hover) {
+				outline: 0.125rem solid light-dark(var(--black), var(--white));
+				outline-offset: 0.125rem;
+			}
 		}
 	}
 
@@ -76,8 +80,8 @@
 
 	.switcher__label {
 		display: flex;
-		align-items: center;
 		justify-content: center;
+		align-items: center;
 
 		cursor: pointer;
 	}
@@ -90,22 +94,46 @@
 		appearance: none;
 
 		&:checked {
-			width: 28px;
-			height: 28px;
+			outline: none;
 			border-radius: 16px;
 
-			background-color: var(--white);
-			outline: none;
+			background-color: light-dark(var(--black), var(--white));
+			width: 28px;
+			height: 28px;
 		}
 	}
 
 	/* Switcher Icon */
 	.switcher__radio + .switcher__icon {
-		filter: invert(1);
+		@media (prefers-color-scheme: light) {
+			filter: invert(0);
+		}
+		:global(.light) & {
+			filter: invert(0);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			filter: invert(1);
+		}
+		:global(.dark) & {
+			filter: invert(1);
+		}
 	}
 
 	.switcher__radio:checked + .switcher__icon {
-		filter: invert(0);
+		@media (prefers-color-scheme: light) {
+			filter: invert(1);
+		}
+		:global(.light) & {
+			filter: invert(1);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			filter: invert(0);
+		}
+		:global(.dark) & {
+			filter: invert(0);
+		}
 	}
 
 	img {
@@ -113,5 +141,6 @@
 		user-select: none;
 		-webkit-user-drag: none;
 		user-drag: none;
+		-webkit-touch-callout: none;
 	}
 </style>

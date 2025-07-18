@@ -20,8 +20,8 @@
 
 body {
 	/* 4. Add accessible line-height */
-	line-height: 1.5;
 	font-weight: 400;
+	line-height: 1.5;
 	/* 5. Improve text rendering */
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
