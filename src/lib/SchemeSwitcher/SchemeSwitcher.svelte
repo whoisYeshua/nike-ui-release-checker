@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { useHaptic } from '../utils/use-haptic.svelte';
 	import autoSvg from './auto.svg';
 	import darkSvg from './dark.svg';
 	import lightSvg from './light.svg';
@@ -13,6 +14,8 @@
 
 	const schemeFromLocalStorage = localStorage.getItem('color-scheme') as Scheme | null;
 	let scheme = $state<Scheme>(schemeFromLocalStorage ?? 'auto');
+
+	const { vibrate } = useHaptic();
 
 	$effect(() => {
 		const colorScheme = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
@@ -37,6 +40,7 @@
 			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all');
 			darkThemeColor?.setAttribute('media', scheme === 'dark' ? 'all' : 'not all');
 		}
+		vibrate();
 	});
 </script>
 
@@ -62,10 +66,10 @@
 	.switcher {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		gap: 8px;
+		gap: 0.75rem;
 		border: none;
 		border-radius: 16px;
-		padding: 6px;
+		padding: 0.375rem;
 
 		&:has(:focus-visible),
 		&:hover {
