@@ -13,8 +13,10 @@
 
 /* Helvetica Neue Regular */
 @font-face {
+	font-style: normal;
+	font-weight: normal;
 	src: url('./assets/fonts/HelveticaNeue.woff2') format('woff2');
-	font-family: 'Helvetica Neue';
+	font-family: Helvetica;
 	font-display: swap;
 }
 
@@ -27,9 +29,10 @@
 	--divider-color: color-mix(in srgb, var(--icon-color) 10%, transparent);
 	--bg: light-dark(var(--white), var(--black));
 	--border-radius: 18px;
+	--font-color: light-dark(#213547, #ffffffde);
 
 	background-color: var(--bg);
-	color: light-dark(#213547, #ffffffde);
+	color: var(--font-color);
 	font-family: 'Trade Gothic', Helvetica, sans-serif;
 }
 

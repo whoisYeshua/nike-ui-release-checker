@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CountrySelect from './CountrySelect.svelte';
+	import CountrySelect from './CountrySelect/CountrySelect.svelte';
 </script>
 
 <main>
