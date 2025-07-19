@@ -41,11 +41,11 @@
 	</div>
 {/snippet}
 
-<select bind:value={selectedCountry} aria-label="SNKRS Country">
+<select bind:value={selectedCountry} name="country" aria-label="SNKRS Country">
 	{@render selectedContent()}
 	{@render placeholderContent()}
 	{#each availableCountries as country}
-		<option value={country.code}>
+		<option value={country}>
 			{@render optionContent(country)}
 		</option>
 	{/each}
