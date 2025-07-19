@@ -40,7 +40,6 @@
 			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all');
 			darkThemeColor?.setAttribute('media', scheme === 'dark' ? 'all' : 'not all');
 		}
-		vibrate();
 	});
 </script>
 
@@ -54,6 +53,7 @@
 				bind:group={scheme}
 				{value}
 				aria-label={label}
+				onclick={vibrate}
 			/>
 			<img class="switcher__icon" src={icon} width="24px" height="24px" title={label} alt={label} />
 		</label>
@@ -70,6 +70,7 @@
 		border: none;
 		border-radius: var(--border-radius);
 		padding: 0.375rem;
+		touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
 
 		&:has(:focus-visible) {
 			outline: 0.125rem solid var(--focus-ring-color);
