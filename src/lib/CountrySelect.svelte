@@ -19,7 +19,7 @@
 	});
 </script>
 
-<select bind:value={selectedCountry}>
+<select bind:value={selectedCountry} aria-label="SNKRS Country">
 	<option value="" disabled>Select a country</option>
 	{#each availableCountries as country}
 		<option value={country}>{country.emoji} {country.name}</option>
@@ -28,7 +28,7 @@
 
 <style>
 	select {
-		transition: border-color 0.2s;
+		cursor: pointer;
 		border: 1px solid var(--divider-color);
 		border-radius: 0.375rem;
 		padding: 0.5rem 0.625rem;

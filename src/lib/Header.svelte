@@ -20,9 +20,18 @@
 		top: 0;
 		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
+		backdrop-filter: blur(16px);
 		box-shadow: 0 2px var(--divider-color);
+		background: linear-gradient(
+			to bottom,
+			var(--bg) 5%,
+			color-mix(in srgb, var(--bg) 70%, transparent) 80%
+		);
 
-		background-color: var(--bg);
+		@media (prefers-reduced-transparency: reduce) {
+			background: var(--bg);
+		}
+
 		padding-inline: calc(50% - 838px);
 		padding-block: 1rem;
 

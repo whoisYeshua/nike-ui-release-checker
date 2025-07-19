@@ -28,6 +28,9 @@
 
 <style>
 	main {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
 		padding-inline: calc(50% - 838px);
 		padding-block: 2rem;
 

@@ -67,18 +67,23 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 0.75rem;
+
+		outline-color: transparent; /* to allow animate it on hover */
 		border: none;
 		border-radius: var(--border-radius);
 		padding: 0.375rem;
 		touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
 
+		/* keyboard focus */
 		&:has(:focus-visible) {
 			outline: 0.125rem solid var(--focus-ring-color);
 			outline-offset: 0.125rem;
 		}
 
+		/* desktop hover, without mobile touch https://tailwindcss.com/docs/upgrade-guide#hover-styles-on-mobile */
 		@media (hover: hover) {
 			&:hover {
+				transition: outline-color 0.2s;
 				outline: 0.125rem solid var(--focus-ring-color);
 				outline-offset: 0.125rem;
 			}
@@ -150,6 +155,6 @@
 		user-select: none;
 		-webkit-user-drag: none;
 		user-drag: none;
-		-webkit-touch-callout: none;
+		-webkit-touch-callout: none; /* disable long press to show menu on iOS */
 	}
 </style>
