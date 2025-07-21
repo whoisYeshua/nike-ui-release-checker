@@ -80,11 +80,10 @@
 	}
 
 	select {
-		--select-bg: oklch(from var(--bg) calc(l * 1.35) c h);
 		cursor: pointer;
 		border: 1px solid var(--divider-color);
-		border-radius: 0.375rem;
-		background-color: var(--select-bg);
+		border-radius: 6px;
+		background-color: var(--popup-bg);
 		padding: 0.5rem 0.625rem;
 		font-family: Helvetica, sans-serif;
 
@@ -155,17 +154,11 @@
 
 		/* apply drop down / picker styles */
 		&::picker(select) {
-			--shadow-color: 220 40% 2%;
+			backdrop-filter: var(--popup-bg-blur);
 			margin-block: 8px;
-			box-shadow:
-				0 -1px 2px 0 hsl(var(--shadow-color) / calc(10% + 2%)),
-				0 2px 1px -2px hsl(var(--shadow-color) / calc(10% + 3%)),
-				0 5px 5px -2px hsl(var(--shadow-color) / calc(10% + 3%)),
-				0 10px 10px -2px hsl(var(--shadow-color) / calc(10% + 4%)),
-				0 20px 20px -2px hsl(var(--shadow-color) / calc(10% + 5%)),
-				0 40px 40px -2px hsl(var(--shadow-color) / calc(10% + 7%));
+			box-shadow: var(--popup-shadow);
 			border-radius: 8px;
-			background: var(--select-bg);
+			background: var(--popup-bg);
 			max-block-size: 12lh;
 			overscroll-behavior: none;
 			scroll-behavior: smooth;
@@ -173,10 +166,10 @@
 		}
 
 		& option {
-			--hover-dark-bg: oklch(from var(--select-bg) calc(l * 0.9) c h);
-			--selected-dark-bg: oklch(from var(--select-bg) calc(l * 0.7) c h);
-			--hover-light-bg: oklch(from var(--select-bg) calc(l * 0.95) c h);
-			--selected-light-bg: oklch(from var(--select-bg) calc(l * 0.85) c h);
+			--hover-dark-bg: oklch(from var(--popup-bg) calc(l * 0.9) c h);
+			--selected-dark-bg: oklch(from var(--popup-bg) calc(l * 0.7) c h);
+			--hover-light-bg: oklch(from var(--popup-bg) calc(l * 0.95) c h);
+			--selected-light-bg: oklch(from var(--popup-bg) calc(l * 0.85) c h);
 
 			display: flex;
 			align-items: center;

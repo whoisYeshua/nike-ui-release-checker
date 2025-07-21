@@ -27,9 +27,25 @@
 	--icon-color: light-dark(var(--black), var(--white));
 	--focus-ring-color: var(--icon-color);
 	--divider-color: color-mix(in srgb, var(--icon-color) 10%, transparent);
+
 	--bg: light-dark(var(--white), var(--black));
-	--border-radius: 18px;
+
 	--font-color: light-dark(#213547, #ffffffde);
+
+	/* Popups */
+	/* making the color lighter (35% brighter) and more transparent (90%) */
+	--popup-bg: oklch(from var(--bg) calc(l * 1.35) c h / 0.9);
+	--popup-bg-blur: blur(16px);
+	--_popup-shadow-color: 220 40% 2%;
+	--popup-shadow:
+		0 -1px 2px 0 hsl(var(--_popup-shadow-color) / calc(10% + 2%)),
+		0 2px 1px -2px hsl(var(--_popup-shadow-color) / calc(10% + 3%)),
+		0 5px 5px -2px hsl(var(--_popup-shadow-color) / calc(10% + 3%)),
+		0 10px 10px -2px hsl(var(--_popup-shadow-color) / calc(10% + 4%)),
+		0 20px 20px -2px hsl(var(--_popup-shadow-color) / calc(10% + 5%)),
+		0 40px 40px -2px hsl(var(--_popup-shadow-color) / calc(10% + 7%));
+
+	--border-radius: 18px;
 
 	background-color: var(--bg);
 	color: var(--font-color);
