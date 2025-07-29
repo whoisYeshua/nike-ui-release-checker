@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useHaptic } from '../../utils/use-haptic.svelte';
+	import { useHaptic } from './utils/use-haptic.svelte';
 
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';

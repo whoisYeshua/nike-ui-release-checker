@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Button from './Button.svelte';
+	import Button from '$lib/Button.svelte';
+
 	import Divider from './Divider.svelte';
 	import BellAlertIcon from './icons/BellAlertIcon.svelte';
 	import BellSlashIcon from './icons/BellSlashIcon.svelte';

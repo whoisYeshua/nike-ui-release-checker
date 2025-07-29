@@ -1,6 +1,7 @@
 <script lang="ts">
-	import Button from './Button.svelte';
-	import QuestionIcon from './QuestionIcon.svelte';
+	import Button from '$lib/Button.svelte';
+
+	import QuestionIcon from './icons/QuestionIcon.svelte';
 
 	interface Props {
 		price?: string;

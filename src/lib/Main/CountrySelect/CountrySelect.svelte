@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { availableCountries } from '../../utils/avaliableCountries';
+	import { availableCountries } from '$lib/utils/avaliableCountries';
 
-	import type { AvailableCountry, CountryCode } from '../../utils/avaliableCountries';
+	import type { AvailableCountry, CountryCode } from '$lib/utils/avaliableCountries';
 
 	const selectedCountryCodeFromLocalStorage = localStorage.getItem(
 		'selected-country'
