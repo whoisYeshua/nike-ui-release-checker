@@ -5,7 +5,7 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	interface Props extends HTMLButtonAttributes {
-		onClick: () => void;
+		onclick: () => void;
 		icon?: Snippet;
 		text?: string;
 		variant?: 'default' | 'light';
@@ -13,11 +13,11 @@
 
 	const { vibrate } = useHaptic();
 
-	let { onClick, icon, text, variant = 'default', ...rest }: Props = $props();
+	let { onclick, icon, text, variant = 'default', ...rest }: Props = $props();
 
 	const handleClick = () => {
 		vibrate();
-		onClick();
+		onclick();
 	};
 </script>
 
@@ -29,7 +29,9 @@
 	{...rest}
 >
 	{@render icon?.()}
-	{text}
+	{#if text}
+		<span>{text}</span>
+	{/if}
 </button>
 
 <style>
@@ -65,6 +67,10 @@
 		-webkit-user-drag: none;
 		user-drag: none;
 		-webkit-touch-callout: none;
+		touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
+		-webkit-tap-highlight-color: transparent;
+
+		text-box-trim: trim-end;
 
 		&.light {
 			--button-bg-hover: var(--divider-color);

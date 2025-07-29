@@ -1,5 +1,5 @@
 // Svelte 5 Rune mode composable for haptic feedback
-// No React imports or hooks
+// TODO: import\execute only once
 
 /**
  * Determines whether the current device is running iOS or iPadOS.
@@ -13,6 +13,8 @@ const checkIosDevice = (): boolean => {
 
 	return isIphone || isIpad;
 };
+
+const HIDDEN_ID = 'HIDDEN_LABEL';
 
 /**
  * Creates a hidden `<label>` element containing a checkbox input.
@@ -29,11 +31,18 @@ const createHiddenSwitch = (): HTMLLabelElement => {
 	label.style.pointerEvents = 'none';
 	label.style.position = 'absolute';
 	label.style.left = '-9999px';
+	label.dataset.id = HIDDEN_ID;
 	input.type = 'checkbox';
 	input.setAttribute('switch', '');
 	label.appendChild(input);
 
 	return label;
+};
+
+const getHiddenSwitch = (): HTMLLabelElement => {
+	const hiddenSwitch = document.querySelector<HTMLLabelElement>(`label[data-id="${HIDDEN_ID}"]`);
+	console.log('hiddenSwitch', hiddenSwitch);
+	return hiddenSwitch ?? createHiddenSwitch();
 };
 
 /** Configuration options for the `useHaptic` composable. */
@@ -66,7 +75,7 @@ export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseH
 
 	$effect(() => {
 		if (!isBrowser) return;
-		labelElement = createHiddenSwitch();
+		labelElement = getHiddenSwitch();
 		document.body.appendChild(labelElement);
 		return () => {
 			if (labelElement && labelElement.parentNode === document.body) {

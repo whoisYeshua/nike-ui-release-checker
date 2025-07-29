@@ -64,7 +64,7 @@
 		{/if}
 
 		<div class="button-row">
-			<Button text={subscriptionState ? 'Unsubscribe' : 'Subscribe'} onClick={handleSubscribe}>
+			<Button text={subscriptionState ? 'Unsubscribe' : 'Subscribe'} onclick={handleSubscribe}>
 				{#snippet icon()}
 					{#if subscriptionState}
 						<BellSlashIcon />
@@ -73,7 +73,7 @@
 					{/if}
 				{/snippet}
 			</Button>
-			<Button onClick={handleShare}>
+			<Button onclick={handleShare}>
 				{#snippet icon()}
 					<ShareIcon />
 				{/snippet}
