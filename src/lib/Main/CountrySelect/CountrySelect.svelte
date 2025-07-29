@@ -203,6 +203,7 @@
 			&:checked {
 				background-color: light-dark(var(--selected-light-bg), var(--selected-dark-bg));
 				color: inherit;
+				font-weight: 500;
 			}
 
 			/* selected checkmark */
