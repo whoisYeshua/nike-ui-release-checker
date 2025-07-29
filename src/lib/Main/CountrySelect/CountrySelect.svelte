@@ -85,7 +85,7 @@
 		border-radius: 6px;
 		background-color: var(--popup-bg);
 		padding: 0.5rem 0.625rem;
-		font-family: Helvetica, sans-serif;
+		font-family: 'Helvetica Neue', sans-serif;
 
 		@media (hover: hover) {
 			&:hover {

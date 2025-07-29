@@ -20,6 +20,7 @@
 		top: 0;
 		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
+		z-index: 1;
 		backdrop-filter: blur(16px);
 		box-shadow: 0 2px var(--divider-color);
 		background: linear-gradient(

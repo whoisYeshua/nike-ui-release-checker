@@ -8,21 +8,72 @@
 	font-weight: bold;
 	src: url('./assets/fonts/TradeGothic.woff2') format('woff2');
 	font-family: 'Trade Gothic';
+	font-display: block;
+}
+
+/* Helvetica Neue */
+@font-face {
+	font-style: normal;
+	font-weight: 900;
+	src: url('./assets/fonts/HelveticaNeue-Black.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
 	font-display: swap;
 }
 
-/* Helvetica Neue Regular */
+@font-face {
+	font-style: normal;
+	font-weight: bold;
+	src: url('./assets/fonts/HelveticaNeue-Bold.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
+	font-display: swap;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 500;
+	src: url('./assets/fonts/HelveticaNeue-Medium.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
+	font-display: swap;
+}
+
 @font-face {
 	font-style: normal;
 	font-weight: normal;
-	src: url('./assets/fonts/HelveticaNeue.woff2') format('woff2');
-	font-family: Helvetica;
+	src: url('./assets/fonts/HelveticaNeue-Roman.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
+	font-display: swap;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 300;
+	src: url('./assets/fonts/HelveticaNeue-Light.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
+	font-display: swap;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 200;
+	src: url('./assets/fonts/HelveticaNeue-UltraLight.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
+	font-display: swap;
+}
+
+@font-face {
+	font-style: normal;
+	font-weight: 100;
+	src: url('./assets/fonts/HelveticaNeue-Thin.woff2') format('woff2');
+	font-family: 'Helvetica Neue';
 	font-display: swap;
 }
 
 :root {
-	--black: #242424;
-	--white: #f7f7f7;
+	--black: hsl(0, 0%, 14%);
+	--white: hsl(0, 0%, 97%);
+	--success: light-dark(#28930e, #3de716);
+	--warning: light-dark(#dfc247, #f8d84f);
+	--error: light-dark(#ff2c7d, #ff2c7d);
 
 	--icon-color: light-dark(var(--black), var(--white));
 	--focus-ring-color: var(--icon-color);
@@ -30,7 +81,7 @@
 
 	--bg: light-dark(var(--white), var(--black));
 
-	--font-color: light-dark(#213547, #ffffffde);
+	--font-color: light-dark(hsl(208, 37%, 20%), hsla(0, 0%, 100%, 0.9));
 
 	/* Popups */
 	/* making the color lighter (35% brighter) and more transparent (90%) */
@@ -49,7 +100,7 @@
 
 	background-color: var(--bg);
 	color: var(--font-color);
-	font-family: 'Trade Gothic', Helvetica, sans-serif;
+	font-family: 'Trade Gothic', 'Helvetica Neue', system-ui, sans-serif;
 }
 
 *,

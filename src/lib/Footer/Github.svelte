@@ -4,7 +4,7 @@
 	aria-label="GitHub repository"
 	title="GitHub repository"
 >
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 		<path
 			fill="currentColor"
 			fill-rule="evenodd"
@@ -32,10 +32,5 @@
 				background-color: var(--divider-color);
 			}
 		}
-	}
-
-	svg {
-		width: 24px;
-		height: 24px;
 	}
 </style>
