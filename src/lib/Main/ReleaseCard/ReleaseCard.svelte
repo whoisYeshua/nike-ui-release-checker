@@ -97,8 +97,6 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
-
-		font-family: 'Helvetica Neue', sans-serif;
 	}
 
 	.product-image {

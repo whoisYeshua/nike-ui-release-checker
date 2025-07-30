@@ -68,6 +68,8 @@
 	font-display: swap;
 }
 
+/* Global styles */
+
 :root {
 	--black: hsl(0, 0%, 14%);
 	--white: hsl(0, 0%, 97%);
@@ -100,7 +102,7 @@
 
 	background-color: var(--bg);
 	color: var(--font-color);
-	font-family: 'Trade Gothic', 'Helvetica Neue', system-ui, sans-serif;
+	font-family: 'Helvetica Neue', system-ui, sans-serif;
 }
 
 *,

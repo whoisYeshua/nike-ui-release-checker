@@ -105,6 +105,7 @@
 	.releases__title {
 		font-size: 1.5rem;
 		line-height: calc(1.5rem + 4px);
+		font-family: 'Trade Gothic', system-ui;
 		text-transform: uppercase;
 	}
 

@@ -28,6 +28,7 @@
 			var(--bg) 5%,
 			color-mix(in srgb, var(--bg) 70%, transparent) 80%
 		);
+		font-family: 'Trade Gothic', system-ui;
 
 		@media (prefers-reduced-transparency: reduce) {
 			background: var(--bg);

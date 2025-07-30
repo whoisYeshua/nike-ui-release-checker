@@ -85,7 +85,6 @@
 		border-radius: 6px;
 		background-color: var(--popup-bg);
 		padding: 0.5rem 0.625rem;
-		font-family: 'Helvetica Neue', sans-serif;
 
 		@media (hover: hover) {
 			&:hover {
@@ -209,7 +208,6 @@
 			/* selected checkmark */
 			&::checkmark {
 				font-weight: 600;
-				font-family: system-ui;
 			}
 		}
 	}
