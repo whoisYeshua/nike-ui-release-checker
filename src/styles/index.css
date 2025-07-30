@@ -89,6 +89,9 @@
 	/* Popups */
 	/* making the color lighter (35% brighter) and more transparent (90%) */
 	--popup-bg: oklch(from var(--bg) calc(l * 1.35) c h / 0.9);
+	@media (prefers-reduced-transparency: reduce) {
+		--popup-bg: oklch(from var(--bg) calc(l * 1.35) c h);
+	}
 	--popup-bg-blur: blur(16px);
 	--_popup-shadow-color: 220 40% 2%;
 	--popup-shadow:
@@ -110,6 +113,15 @@
 *::before,
 *::after {
 	transition:
-		background-color,
+		background-color 0.2s,
 		border-color 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::backdrop,
+	*::before,
+	*::after {
+		transition: none !important;
+	}
 }

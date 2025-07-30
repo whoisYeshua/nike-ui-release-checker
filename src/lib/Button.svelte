@@ -52,9 +52,9 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		transition: opacity 0.2s;
-
-		transition: translate 0.2s ease-in-out;
+		transition:
+			translate 0.2s ease-in-out,
+			background-color 0.2s ease-in-out;
 		cursor: pointer;
 		border: none;
 		border-radius: 32px;

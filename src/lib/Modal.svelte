@@ -161,6 +161,13 @@
 				backdrop-filter: blur(16px);
 				background-color: color-mix(in srgb, var(--black) 50%, transparent);
 			}
+
+			@media (prefers-reduced-transparency: reduce) {
+				&::backdrop {
+					backdrop-filter: none;
+					background-color: var(--black);
+				}
+			}
 		}
 
 		/* Enter Stage From */
