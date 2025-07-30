@@ -41,7 +41,6 @@ const createHiddenSwitch = (): HTMLLabelElement => {
 
 const getHiddenSwitch = (): HTMLLabelElement => {
 	const hiddenSwitch = document.querySelector<HTMLLabelElement>(`label[data-id="${HIDDEN_ID}"]`);
-	console.log('hiddenSwitch', hiddenSwitch);
 	return hiddenSwitch ?? createHiddenSwitch();
 };
 
