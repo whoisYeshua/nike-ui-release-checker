@@ -64,7 +64,9 @@
 		font-size: 16px;
 		line-height: 20px;
 
-		text-box-trim: trim-end;
+		& span {
+			text-box-trim: trim-end;
+		}
 
 		&.light {
 			--button-bg-hover: var(--divider-color);
