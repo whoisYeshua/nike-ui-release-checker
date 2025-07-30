@@ -3,7 +3,7 @@
 </script>
 
 <header>
-	<img src={logoSvg} width="50px" height="35px" alt="SNKRS Logo" />
+	<img class="not-selectable" src={logoSvg} width="50px" height="35px" alt="SNKRS Logo" />
 	<h1>Nike release checker</h1>
 </header>
 
@@ -61,11 +61,6 @@
 	img {
 		grid-column: 1;
 		justify-self: start;
-		-webkit-user-select: none;
-		user-select: none;
-		-webkit-user-drag: none;
-		user-drag: none;
-		-webkit-touch-callout: none;
 	}
 
 	h1 {

@@ -1,0 +1,19 @@
+/* Prevents text selection, image dragging, and context menu on touch:
+   - Disables text selection across browsers
+   - Prevents dragging of images/elements 
+   - Disables the iOS context menu on long press */
+.not-selectable {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+}
+
+/* Improves touch interactions on mobile:
+   - Removes blue highlight on tap (iOS)
+   - Disables double-tap zoom and other browser touch actions
+   - Reduces delay between tap and click event */
+.touchable {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
+}

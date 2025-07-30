@@ -43,7 +43,7 @@
 	});
 </script>
 
-<fieldset class="switcher">
+<fieldset class="switcher touchable">
 	{#each schemes as { value, label, icon } (value)}
 		<label class="switcher__label" tabindex="-1">
 			<input
@@ -55,7 +55,14 @@
 				aria-label={label}
 				onclick={vibrate}
 			/>
-			<img class="switcher__icon" src={icon} width="24px" height="24px" title={label} alt={label} />
+			<img
+				class="switcher__icon not-selectable"
+				src={icon}
+				width="24px"
+				height="24px"
+				title={label}
+				alt={label}
+			/>
 		</label>
 	{/each}
 </fieldset>
@@ -72,7 +79,6 @@
 		border: none;
 		border-radius: var(--border-radius);
 		padding: 0.375rem;
-		touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
 
 		/* keyboard focus */
 		&:has(:focus-visible) {
@@ -148,13 +154,5 @@
 		:global(.dark) & {
 			filter: invert(0);
 		}
-	}
-
-	img {
-		-webkit-user-select: none;
-		user-select: none;
-		-webkit-user-drag: none;
-		user-drag: none;
-		-webkit-touch-callout: none; /* disable long press to show menu on iOS */
 	}
 </style>
