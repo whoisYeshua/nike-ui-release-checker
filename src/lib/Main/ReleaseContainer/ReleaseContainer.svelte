@@ -1,24 +1,16 @@
 <script lang="ts">
 	import ModelCard from '../ModelCard/ModelCard.svelte';
 
+	import type { Snippet } from 'svelte';
+
 	interface Props {
-		release: {
-			productName: string;
-			models: Array<{
-				imageUrl: string;
-				releaseDate: string;
-				productCategory: string;
-				productName: string;
-				price: string;
-				method: string;
-				sizes: Array<{ size: string; stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA' }>;
-			}>;
-		};
+		children: Snippet;
+		childrenCount: number;
 	}
 
 	const ITEMS_GAP = 24;
 
-	let { release }: Props = $props();
+	let { children, childrenCount }: Props = $props();
 
 	let activeIndex = $state(0);
 
@@ -35,23 +27,19 @@
 	};
 </script>
 
-<div class="releases-item">
-	<div class="releases-item__cards" style:gap={`${ITEMS_GAP}px`} onscroll={handleScroll}>
-		{#each release.models as model (model.productName)}
-			<div class="releases-item__card">
-				<ModelCard {...model} />
-			</div>
-		{/each}
+<div class="release-container">
+	<div class="release-container__items" style:gap={`${ITEMS_GAP}px`} onscroll={handleScroll}>
+		{@render children()}
 	</div>
 	<div class="models-count">
-		{#each release.models as _, index}
+		{#each { length: childrenCount }, index}
 			<div class="models-count__item" class:active={index === activeIndex}></div>
 		{/each}
 	</div>
 </div>
 
 <style>
-	.releases-item {
+	.release-container {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
@@ -59,7 +47,7 @@
 		height: 100%;
 	}
 
-	.releases-item__cards {
+	.release-container__items {
 		display: flex;
 		width: 100%;
 		height: 100%;
@@ -68,12 +56,6 @@
 		scroll-behavior: smooth;
 		scroll-snap-type: x mandatory;
 		scrollbar-width: none;
-	}
-
-	.releases-item__card {
-		min-width: 100%;
-		scroll-snap-align: start;
-		scroll-snap-stop: always;
 	}
 
 	.models-count {

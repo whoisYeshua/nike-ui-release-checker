@@ -1,6 +1,8 @@
 <script lang="ts">
 	import CountrySelect from './CountrySelect/CountrySelect.svelte';
-	import ReleaseItem from './ReleaseItem/ReleaseItem.svelte';
+	import ModelCard from './ModelCard/ModelCard.svelte';
+	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte';
+	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte';
 
 	const sizes = [
 		{ size: '7', stock: 'HIGH' },
@@ -112,7 +114,13 @@
 		</h2>
 		<div class="releases__grid">
 			{#each releases as release (release.productName)}
-				<ReleaseItem {release} />
+				<ReleaseContainer childrenCount={release.models.length}>
+					{#each release.models as model (model.productName)}
+						<ReleaseContainerItem>
+							<ModelCard {...model} />
+						</ReleaseContainerItem>
+					{/each}
+				</ReleaseContainer>
 			{/each}
 		</div>
 	</section>
