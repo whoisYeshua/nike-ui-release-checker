@@ -73,7 +73,7 @@
 					{/if}
 				{/snippet}
 			</Button>
-			<Button onclick={handleShare}>
+			<Button onclick={handleShare} aria-label="Share this release">
 				{#snippet icon()}
 					<ShareIcon />
 				{/snippet}
