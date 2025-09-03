@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CountrySelect from './CountrySelect/CountrySelect.svelte';
+	import EmptyReleases from './EmptyRelesases/EmptyRelesases.svelte';
 	import ModelCard from './ModelCard/ModelCard.svelte';
 	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte';
 	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte';
@@ -24,7 +25,7 @@
 	] satisfies { size: string; stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA' }[];
 
 	// Sample release data
-	const releases = [
+	let releases = [
 		{
 			productName: 'Glacier Blue and Light Armory Blue',
 			models: [
@@ -101,6 +102,7 @@
 			]
 		}
 	];
+	releases = [];
 </script>
 
 <main>
@@ -112,17 +114,21 @@
 			Upcoming releases
 			<span class="releases__title-count">{releases.length}</span>
 		</h2>
-		<div class="releases__grid">
-			{#each releases as release (release.productName)}
-				<ReleaseContainer childrenCount={release.models.length}>
-					{#each release.models as model (model.productName)}
-						<ReleaseContainerItem>
-							<ModelCard {...model} />
-						</ReleaseContainerItem>
-					{/each}
-				</ReleaseContainer>
-			{/each}
-		</div>
+		{#if releases.length > 0}
+			<div class="releases__grid">
+				{#each releases as release (release.productName)}
+					<ReleaseContainer childrenCount={release.models.length}>
+						{#each release.models as model (model.productName)}
+							<ReleaseContainerItem>
+								<ModelCard {...model} />
+							</ReleaseContainerItem>
+						{/each}
+					</ReleaseContainer>
+				{/each}
+			</div>
+		{:else}
+			<EmptyReleases />
+		{/if}
 	</section>
 </main>
 

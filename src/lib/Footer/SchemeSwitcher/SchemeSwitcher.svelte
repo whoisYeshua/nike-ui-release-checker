@@ -28,12 +28,14 @@
 		const rootHtmlElement = document.documentElement;
 
 		if (scheme === 'auto') {
+			// TODO: check https://una.im/5-css-functions/ and remove class
 			rootHtmlElement.classList = '';
 			localStorage.removeItem('color-scheme');
 			colorScheme?.setAttribute('content', 'light dark');
 			lightThemeColor?.setAttribute('media', '(prefers-color-scheme: light)');
 			darkThemeColor?.setAttribute('media', '(prefers-color-scheme: dark)');
 		} else {
+			// TODO: check https://una.im/5-css-functions/ and remove class
 			rootHtmlElement.classList = scheme;
 			localStorage.setItem('color-scheme', scheme);
 			colorScheme?.setAttribute('content', scheme);
@@ -141,6 +143,7 @@
 	}
 
 	.switcher__radio:checked + .switcher__icon {
+		/* TODO: check https://una.im/5-css-functions/ */
 		@media (prefers-color-scheme: light) {
 			filter: invert(1);
 		}

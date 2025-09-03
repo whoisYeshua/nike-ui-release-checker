@@ -15,5 +15,5 @@
    - Reduces delay between tap and click event */
 .touchable {
 	-webkit-tap-highlight-color: transparent;
-	touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile */
+	touch-action: manipulation; /* speed up on mobile https://stackoverflow.com/questions/44240596/input-checkboxes-radio-buttons-slow-response-on-tablet-mobile or https://webkit.org/blog/5610/more-responsive-tapping-on-ios/*/
 }

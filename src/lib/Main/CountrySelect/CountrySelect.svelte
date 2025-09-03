@@ -63,6 +63,7 @@
 			color: inherit;
 
 			/* Arrow icon theming */
+			/* TODO: check https://una.im/5-css-functions/ */
 			@media (prefers-color-scheme: light) {
 				background-image: url('./dark-arrow.svg');
 			}
