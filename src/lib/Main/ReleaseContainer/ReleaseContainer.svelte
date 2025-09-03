@@ -1,6 +1,4 @@
 <script lang="ts">
-	import ModelCard from '../ModelCard/ModelCard.svelte';
-
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -13,11 +11,9 @@
 	let { children, childrenCount }: Props = $props();
 
 	let activeIndex = $state(0);
+	let cardsContainer: HTMLDivElement;
 
-	const handleScroll = ({ currentTarget }: Event) => {
-		const cardsContainer = currentTarget as HTMLDivElement;
-		if (!cardsContainer) return;
-
+	const handleScroll = () => {
 		const scrollLeft = cardsContainer.scrollLeft;
 		const cardWidth = cardsContainer.clientWidth;
 
@@ -25,15 +21,35 @@
 		const currentIndex = Math.round(scrollLeft / (cardWidth + ITEMS_GAP));
 		activeIndex = Math.max(0, Math.min(currentIndex, cardsContainer.childElementCount - 1));
 	};
+
+	const scrollToItem = (index: number) => {
+		const cardWidth = cardsContainer.clientWidth;
+		const scrollPosition = index * (cardWidth + ITEMS_GAP);
+
+		cardsContainer.scrollTo({
+			left: scrollPosition,
+			behavior: 'smooth'
+		});
+	};
 </script>
 
 <div class="release-container">
-	<div class="release-container__items" style:gap={`${ITEMS_GAP}px`} onscroll={handleScroll}>
+	<div
+		class="release-container__items"
+		style:gap={`${ITEMS_GAP}px`}
+		onscroll={handleScroll}
+		bind:this={cardsContainer}
+	>
 		{@render children()}
 	</div>
 	<div class="models-count">
 		{#each { length: childrenCount }, index}
-			<div class="models-count__item" class:active={index === activeIndex}></div>
+			<button
+				class="models-count__item touchable"
+				class:active={index === activeIndex}
+				aria-label="Go to item {index + 1}"
+				onclick={() => scrollToItem(index)}
+			></button>
 		{/each}
 	</div>
 </div>
@@ -65,8 +81,11 @@
 	}
 
 	.models-count__item {
+		cursor: pointer;
 		border: 1px solid var(--divider-color);
 		border-radius: 50%;
+		background-color: transparent;
+		padding: 0;
 		width: 0.5rem;
 		height: 0.5rem;
 

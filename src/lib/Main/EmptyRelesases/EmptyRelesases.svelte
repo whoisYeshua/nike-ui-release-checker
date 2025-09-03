@@ -4,7 +4,7 @@
 
 <div class="container">
 	<h3>No releases found</h3>
-	<img src={imgSrc} alt="Empty box" />
+	<img src={imgSrc} class="not-selectable" alt="Empty box" />
 </div>
 
 <style>

@@ -102,7 +102,6 @@
 			]
 		}
 	];
-	releases = [];
 </script>
 
 <main>
