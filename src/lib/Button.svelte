@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useHaptic } from './utils/use-haptic.svelte';
+	import { useHaptic } from '$utils/use-haptic.svelte';
 
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
@@ -13,7 +13,7 @@
 
 	const { vibrate } = useHaptic();
 
-	let { onclick, icon, text, variant = 'default', ...rest }: Props = $props();
+	let { onclick, icon, text, variant = 'default', inert, ...rest }: Props = $props();
 
 	const handleClick = () => {
 		vibrate();
@@ -90,6 +90,11 @@
 		&:active {
 			translate: 0 1px;
 			background-color: var(--button-bg-active);
+		}
+
+		&:disabled {
+			opacity: 0.8;
+			pointer-events: none;
 		}
 	}
 </style>

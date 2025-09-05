@@ -1,22 +1,8 @@
 <script lang="ts">
-	import { availableCountries } from '$lib/utils/avaliableCountries';
+	import { countryStore } from '$lib/Main/country.svelte';
+	import { availableCountries } from '$utils/avaliableCountries';
 
-	import type { AvailableCountry, CountryCode } from '$lib/utils/avaliableCountries';
-
-	const selectedCountryCodeFromLocalStorage = localStorage.getItem(
-		'selected-country'
-	) as CountryCode | null;
-	const selectedCountryFromLocalStorage = availableCountries.find(
-		(country) => country.code === selectedCountryCodeFromLocalStorage
-	);
-
-	let selectedCountry = $state<AvailableCountry | ''>(selectedCountryFromLocalStorage ?? '');
-
-	$effect(() => {
-		if (selectedCountry) {
-			localStorage.setItem('selected-country', selectedCountry.code);
-		}
-	});
+	import type { AvailableCountry } from '$utils/avaliableCountries';
 </script>
 
 {#snippet selectedContent()}
@@ -29,7 +15,7 @@
 {/snippet}
 
 {#snippet placeholderContent()}
-	<option value="" disabled>Select a country</option>
+	<option value={null} disabled>Select a country</option>
 {/snippet}
 
 {#snippet optionContent(country: AvailableCountry)}
@@ -41,7 +27,7 @@
 	</div>
 {/snippet}
 
-<select bind:value={selectedCountry} name="country" aria-label="SNKRS Country">
+<select bind:value={countryStore.value} name="country" aria-label="SNKRS Country">
 	{@render selectedContent()}
 	{@render placeholderContent()}
 	{#each availableCountries as country}

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { useHaptic } from '../../utils/use-haptic.svelte';
+	import { useHaptic } from '$utils/use-haptic.svelte';
+
 	import autoSvg from './auto.svg';
 	import darkSvg from './dark.svg';
 	import lightSvg from './light.svg';
