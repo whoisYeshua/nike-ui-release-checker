@@ -5,10 +5,12 @@
 	import ModelCard from './ModelCard/ModelCard.svelte';
 	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte';
 	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte';
-	import { ReleasesStore } from './releases.svelte';
 	import ReleaseSkeleton from './ReleaseSkeleton.svelte';
+	import { setupServiceProvider, useReleasesStore } from './services';
 
-	let releases = new ReleasesStore();
+	setupServiceProvider();
+
+	const releasesStore = useReleasesStore();
 </script>
 
 {#snippet releaseSkeleton()}
@@ -20,9 +22,9 @@
 {/snippet}
 
 {#snippet loadedReleases()}
-	{#if releases.data?.length}
+	{#if releasesStore.data?.length}
 		<div class="releases__grid">
-			{#each releases.data as release (release.productName)}
+			{#each releasesStore.data as release (release.productName)}
 				<ReleaseContainer childrenCount={release.models.length}>
 					{#each release.models as model (model.productName)}
 						<ReleaseContainerItem>
@@ -44,12 +46,12 @@
 	<section class="releases">
 		<h2 class="releases__title">
 			Upcoming releases
-			<span class="releases__title-count">{releases.data?.length}</span>
+			<span class="releases__title-count">{releasesStore.data?.length}</span>
 		</h2>
-		{#if releases.isInitialLoading}
+		{#if releasesStore.isInitialLoading}
 			{@render releaseSkeleton()}
-		{:else if releases.error}
-			<ErrorReleases onClick={releases.refetch} isRefetching={releases.isRefetching} />
+		{:else if releasesStore.error}
+			<ErrorReleases onClick={releasesStore.refetch} isRefetching={releasesStore.isRefetching} />
 		{:else}
 			{@render loadedReleases()}
 		{/if}

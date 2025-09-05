@@ -2,7 +2,7 @@ import { availableCountries } from '$utils/avaliableCountries';
 
 import type { AvailableCountry, CountryCode } from '$utils/avaliableCountries';
 
-class CountryStore {
+export class CountryStore {
 	#storageKey = 'selected-country';
 	#value = $state<AvailableCountry | null>(this.#getInitialCountry());
 
@@ -29,5 +29,3 @@ class CountryStore {
 		return selectedCountryFromLocalStorage ?? null;
 	}
 }
-
-export const countryStore = new CountryStore();

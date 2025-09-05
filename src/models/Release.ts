@@ -1,4 +1,4 @@
-export type Stock = 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA';
+type Stock = 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA';
 
 type Size = {
 	size: string;

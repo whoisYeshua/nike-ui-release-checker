@@ -1,7 +1,4 @@
-import { countryStore } from '../Main/country.svelte';
-
 import type { ReleaseResponse } from '$models/Release';
-import type { AvailableCountry } from '$utils/avaliableCountries';
 
 export class ReleasesStore {
 	status = $state<'uninitialized' | 'pending' | 'success' | 'error'>('uninitialized');
@@ -18,26 +15,26 @@ export class ReleasesStore {
 	isSuccess = $derived(this.status === 'success');
 	isError = $derived(this.status === 'error');
 
-	#lastParams: AvailableCountry | undefined;
+	#lastParams: string | undefined;
 	#fetchAbortController = new AbortController();
 	#silentAbort = Symbol('silentAbort');
 
-	constructor() {
+	constructor(countryStore: { value?: { code?: string } | null }) {
 		$effect.root(() => {
 			$effect(() => {
-				if (!countryStore.value) return;
+				if (!countryStore.value?.code) return;
 
 				this.#restartController();
-				this.#lastParams = countryStore.value;
+				this.#lastParams = countryStore.value.code;
 				this.#fetchRelease(countryStore.value.code);
 			});
 		});
 	}
 
 	refetch = async () => {
-		if (!this.#lastParams?.code) return;
+		if (!this.#lastParams) return;
 		this.#restartController();
-		await this.#fetchRelease(this.#lastParams.code);
+		await this.#fetchRelease(this.#lastParams);
 	};
 
 	#fetchRelease = async (code: string) => {

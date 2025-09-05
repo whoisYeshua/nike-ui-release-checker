@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { countryStore } from '$lib/Main/country.svelte';
 	import { availableCountries } from '$utils/avaliableCountries';
 
+	import { useCountryStore } from '../services';
+
 	import type { AvailableCountry } from '$utils/avaliableCountries';
+
+	const countryStore = useCountryStore();
 </script>
 
 {#snippet selectedContent()}
