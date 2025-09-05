@@ -100,8 +100,8 @@ let releases = [
 
 export const handlers = [
 	http.get('/api/releases', async () => {
-		await delay(3000);
-		const isError = window.confirm('error?');
+		await delay(1000);
+		const isError = false; // || window.confirm('Show error request?');
 		return HttpResponse.json(releases, { status: isError ? 500 : 200 });
 	})
 ];
