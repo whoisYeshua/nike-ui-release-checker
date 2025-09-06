@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { availableCountries } from '$utils/avaliableCountries';
+	import { availableCountries } from '$utils/availableCountries';
 
 	import { useCountryStore } from '../services';
 
-	import type { AvailableCountry } from '$utils/avaliableCountries';
+	import type { AvailableCountry } from '$utils/availableCountries';
 
 	const countryStore = useCountryStore();
 </script>

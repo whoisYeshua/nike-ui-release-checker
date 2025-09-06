@@ -1,5 +1,6 @@
 test-results
 node_modules
+_cert.pem
 
 # Output
 .output

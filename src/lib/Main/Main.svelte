@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CountrySelect from './CountrySelect/CountrySelect.svelte';
-	import EmptyReleases from './EmptyRelesases/EmptyRelesases.svelte';
+	import EmptyReleases from './EmptyReleases/EmptyReleases.svelte';
 	import ErrorReleases from './ErrorReleases/ErrorReleases.svelte';
 	import ModelCard from './ModelCard/ModelCard.svelte';
 	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte';

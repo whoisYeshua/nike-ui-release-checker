@@ -1,6 +1,8 @@
-import { availableCountries } from '$utils/avaliableCountries';
+import { availableCountries } from '$utils/availableCountries';
 
-import type { AvailableCountry, CountryCode } from '$utils/avaliableCountries';
+import type { AvailableCountry, CountryCode } from '$utils/availableCountries';
+
+const isBrowser = typeof window !== 'undefined';
 
 export class CountryStore {
 	#storageKey = 'selected-country';
@@ -12,11 +14,11 @@ export class CountryStore {
 	set value(selectedCountry: AvailableCountry | null) {
 		this.#value = selectedCountry;
 		if (!selectedCountry) return;
-		localStorage.setItem(this.#storageKey, selectedCountry.code);
+		if (isBrowser) localStorage.setItem(this.#storageKey, selectedCountry.code);
 	}
 
 	#getInitialCountry() {
-		if (typeof localStorage === 'undefined') return null;
+		if (!isBrowser) return null;
 
 		const selectedCountryCodeFromLocalStorage = localStorage.getItem(
 			this.#storageKey

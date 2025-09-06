@@ -4,9 +4,9 @@
 	import Divider from './Divider.svelte';
 	import BellAlertIcon from './icons/BellAlertIcon.svelte';
 	import BellSlashIcon from './icons/BellSlashIcon.svelte';
-	import ShareIcon from './icons/ShareIcon.svelte';
 	import ModelInfo from './ModelInfo.svelte';
 	import ReleaseName from './ReleaseName.svelte';
+	import ShareButton from './ShareButton.svelte';
 	import StockInfo from './StockInfo.svelte';
 
 	interface Props {
@@ -39,10 +39,6 @@
 	function handleSubscribe() {
 		subscriptionState = !subscriptionState;
 	}
-
-	function handleShare() {
-		console.log('Sharing release...');
-	}
 </script>
 
 <article class="card-container">
@@ -73,11 +69,15 @@
 					{/if}
 				{/snippet}
 			</Button>
-			<Button onclick={handleShare} aria-label="Share this release">
-				{#snippet icon()}
-					<ShareIcon />
-				{/snippet}
-			</Button>
+			<ShareButton
+				{imageUrl}
+				{releaseDate}
+				{productCategory}
+				{productName}
+				{price}
+				{method}
+				{sizes}
+			/>
 		</div>
 	</div>
 </article>

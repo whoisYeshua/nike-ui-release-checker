@@ -30,9 +30,4 @@
 		font-family: 'Trade Gothic', system-ui;
 		text-transform: uppercase;
 	}
-
-	img {
-		width: 18rem;
-		object-position: 0 -3rem;
-	}
 </style>
