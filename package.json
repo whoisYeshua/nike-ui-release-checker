@@ -3,6 +3,10 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"imports": {
+		"#snkrs-sdk": "./snkrs-sdk/index.ts",
+		"#snkrs-sdk/mocks": "./snkrs-sdk/mocks/node.ts"
+	},
 	"scripts": {
 		"dev": "vite --host",
 		"dev:mobile": "cross-env MOBILE_MODE=true vite --host",
