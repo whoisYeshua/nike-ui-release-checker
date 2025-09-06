@@ -1,6 +1,6 @@
-import { availableCountries } from '$utils/availableCountries'
+import { availableCountries } from '#snkrs-sdk'
 
-import type { AvailableCountry, CountryCode } from '$utils/availableCountries'
+import type { AvailableCountry, CountryCode } from '#snkrs-sdk'
 
 const isBrowser = typeof window !== 'undefined'
 

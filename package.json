@@ -4,14 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"imports": {
-		"#snkrs-sdk": "./snkrs-sdk/index.ts",
-		"#snkrs-sdk/mocks": "./snkrs-sdk/mocks/node.ts"
+		"#snkrs-sdk": "./nike-release-checker/snkrs-sdk/index.ts"
 	},
 	"scripts": {
-		"dev": "vite --host",
+		"dev": "vite",
 		"dev:mobile": "cross-env MOBILE_MODE=true vite --host",
 		"build": "vite build",
 		"preview": "vite preview",
+		"lint:ts": "tsc --noEmit --allowImportingTsExtensions --project tsconfig.app.json",
 		"check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
 		"knip": "knip"
 	},

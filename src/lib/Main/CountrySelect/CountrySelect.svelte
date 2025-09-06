@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { availableCountries } from '$utils/availableCountries'
+	import { availableCountries } from '#snkrs-sdk'
 
 	import { useCountryStore } from '../services'
 
-	import type { AvailableCountry } from '$utils/availableCountries'
+	import type { AvailableCountry } from '#snkrs-sdk'
 
 	const countryStore = useCountryStore()
 </script>

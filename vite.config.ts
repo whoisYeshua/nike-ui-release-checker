@@ -16,4 +16,6 @@ if (process.env.MOBILE_MODE) {
 	)
 }
 
-export default defineConfig({ plugins })
+export default defineConfig({
+	plugins
+})
