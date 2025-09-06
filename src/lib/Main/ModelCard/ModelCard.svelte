@@ -1,26 +1,26 @@
 <script lang="ts">
-	import Button from '$lib/Button.svelte';
+	import Button from '$lib/Button.svelte'
 
-	import Divider from './Divider.svelte';
-	import BellAlertIcon from './icons/BellAlertIcon.svelte';
-	import BellSlashIcon from './icons/BellSlashIcon.svelte';
-	import ModelInfo from './ModelInfo.svelte';
-	import ReleaseName from './ReleaseName.svelte';
-	import ShareButton from './ShareButton.svelte';
-	import StockInfo from './StockInfo.svelte';
+	import Divider from './Divider.svelte'
+	import BellAlertIcon from './icons/BellAlertIcon.svelte'
+	import BellSlashIcon from './icons/BellSlashIcon.svelte'
+	import ModelInfo from './ModelInfo.svelte'
+	import ReleaseName from './ReleaseName.svelte'
+	import ShareButton from './ShareButton.svelte'
+	import StockInfo from './StockInfo.svelte'
 
 	interface Props {
-		imageUrl?: string;
-		releaseDate?: string;
-		productCategory?: string;
-		productName?: string;
-		price?: string;
-		method?: string;
+		imageUrl?: string
+		releaseDate?: string
+		productCategory?: string
+		productName?: string
+		price?: string
+		method?: string
 		sizes?: Array<{
-			size: string;
-			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA';
-		}>;
-		isSubscribed?: boolean;
+			size: string
+			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
+		}>
+		isSubscribed?: boolean
 	}
 
 	let {
@@ -32,12 +32,12 @@
 		method,
 		sizes,
 		isSubscribed
-	}: Props = $props();
+	}: Props = $props()
 
-	let subscriptionState = $state(isSubscribed);
+	let subscriptionState = $state(isSubscribed)
 
 	function handleSubscribe() {
-		subscriptionState = !subscriptionState;
+		subscriptionState = !subscriptionState
 	}
 </script>
 

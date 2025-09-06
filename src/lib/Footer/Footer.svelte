@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Github from './Github.svelte';
-	import SchemeSwitcher from './SchemeSwitcher/SchemeSwitcher.svelte';
+	import Github from './Github.svelte'
+	import SchemeSwitcher from './SchemeSwitcher/SchemeSwitcher.svelte'
 </script>
 
 <footer>

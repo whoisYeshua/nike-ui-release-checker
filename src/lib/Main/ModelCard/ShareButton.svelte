@@ -1,55 +1,55 @@
 <script lang="ts">
-	import Button from '$lib/Button.svelte';
-	import { convertImageUrlToFile } from '$utils/convertImageUrlToFile';
+	import Button from '$lib/Button.svelte'
+	import { convertImageUrlToFile } from '$utils/convertImageUrlToFile'
 
-	import ShareIcon from './icons/ShareIcon.svelte';
+	import ShareIcon from './icons/ShareIcon.svelte'
 
-	const isBrowser = typeof window !== 'undefined';
-	const webShareAPISupported = isBrowser && typeof navigator.share !== 'undefined';
+	const isBrowser = typeof window !== 'undefined'
+	const webShareAPISupported = isBrowser && typeof navigator.share !== 'undefined'
 
 	interface Props {
-		imageUrl?: string;
-		releaseDate?: string;
-		productCategory?: string;
-		productName?: string;
-		price?: string;
-		method?: string;
+		imageUrl?: string
+		releaseDate?: string
+		productCategory?: string
+		productName?: string
+		price?: string
+		method?: string
 		sizes?: Array<{
-			size: string;
-			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA';
-		}>;
+			size: string
+			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
+		}>
 	}
 
 	let { imageUrl, releaseDate, productCategory, productName, price, method, sizes }: Props =
-		$props();
+		$props()
 
 	const formatReleaseText = () => {
-		let text = '';
+		let text = ''
 
 		// Product info
 		if (productCategory && productName) {
-			text += `${productCategory} - ${productName}\n`;
+			text += `${productCategory} - ${productName}\n`
 		} else if (productName) {
-			text += `${productName}\n`;
+			text += `${productName}\n`
 		}
 
 		// Release date
 		if (releaseDate) {
-			text += `Release Date: ${releaseDate}\n`;
+			text += `Release Date: ${releaseDate}\n`
 		}
 
 		// Price and method
 		if (price) {
-			text += `Price: ${price}`;
+			text += `Price: ${price}`
 			if (method) {
-				text += ` (${method})`;
+				text += ` (${method})`
 			}
-			text += '\n';
+			text += '\n'
 		}
 
 		// Stock information
 		if (sizes && sizes.length > 0) {
-			text += '\nStock Status:\n';
+			text += '\nStock Status:\n'
 			sizes.forEach((sizeInfo) => {
 				const stockStatusMap = {
 					HIGH: '🟢 High',
@@ -57,30 +57,30 @@
 					LOW: '🔴 Low',
 					OOS: '❌ Out of Stock',
 					NA: '❓ Not Available'
-				};
-				const stockStatus = stockStatusMap[sizeInfo.stock];
-				text += `  Size ${sizeInfo.size}: ${stockStatus}\n`;
-			});
+				}
+				const stockStatus = stockStatusMap[sizeInfo.stock]
+				text += `  Size ${sizeInfo.size}: ${stockStatus}\n`
+			})
 		}
 
-		return text.trim();
-	};
+		return text.trim()
+	}
 
 	const handleShare = async () => {
-		const shareText = formatReleaseText();
+		const shareText = formatReleaseText()
 		const shareData: ShareData = {
 			title: productName || 'Nike Release',
 			text: shareText,
 			url: window.location.href
-		};
-
-		if (imageUrl && navigator?.canShare({ ...shareData, files: [] })) {
-			const imageFile = await convertImageUrlToFile(imageUrl, 'nike-release');
-			if (imageFile) shareData.files = [imageFile];
 		}
 
-		await navigator.share(shareData);
-	};
+		if (imageUrl && navigator?.canShare({ ...shareData, files: [] })) {
+			const imageFile = await convertImageUrlToFile(imageUrl, 'nike-release')
+			if (imageFile) shareData.files = [imageFile]
+		}
+
+		await navigator.share(shareData)
+	}
 </script>
 
 {#if webShareAPISupported}

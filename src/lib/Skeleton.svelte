@@ -4,7 +4,7 @@
 		height = '100%',
 		borderRadius = 'var(--border-radius)',
 		backgroundColor = 'var(--divider-color)'
-	} = $props();
+	} = $props()
 </script>
 
 <div

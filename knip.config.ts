@@ -1,4 +1,4 @@
-import type { KnipConfig } from 'knip';
+import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
 	entry: ['src/index.ts', 'index.html'],
@@ -9,6 +9,6 @@ const config: KnipConfig = {
 		'$models/*': ['src/models/*'],
 		'$utils/*': ['src/utils/*']
 	}
-};
+}
 
-export default config;
+export default config

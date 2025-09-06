@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { availableCountries } from '$utils/availableCountries';
+	import { availableCountries } from '$utils/availableCountries'
 
-	import { useCountryStore } from '../services';
+	import { useCountryStore } from '../services'
 
-	import type { AvailableCountry } from '$utils/availableCountries';
+	import type { AvailableCountry } from '$utils/availableCountries'
 
-	const countryStore = useCountryStore();
+	const countryStore = useCountryStore()
 </script>
 
 {#snippet selectedContent()}

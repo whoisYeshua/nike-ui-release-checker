@@ -1,30 +1,30 @@
 <script lang="ts">
-	import Button from './Button.svelte';
+	import Button from './Button.svelte'
 
-	import type { Snippet } from 'svelte';
-	import type { HTMLDialogAttributes } from 'svelte/elements';
+	import type { Snippet } from 'svelte'
+	import type { HTMLDialogAttributes } from 'svelte/elements'
 
 	interface Props extends HTMLDialogAttributes {
-		headerText: string;
-		children?: Snippet;
-		dialog: HTMLDialogElement;
+		headerText: string
+		children?: Snippet
+		dialog: HTMLDialogElement
 	}
 
-	let { dialog = $bindable(), headerText, children, ...rest }: Props = $props();
+	let { dialog = $bindable(), headerText, children, ...rest }: Props = $props()
 
 	const closeDialogOnOutsideClick = (e: MouseEvent) => {
-		if ('closedBy' in HTMLDialogElement.prototype) return;
+		if ('closedBy' in HTMLDialogElement.prototype) return
 
-		const dialogDimensions = dialog.getBoundingClientRect();
+		const dialogDimensions = dialog.getBoundingClientRect()
 		if (
 			e.clientX < dialogDimensions.left ||
 			e.clientX > dialogDimensions.right ||
 			e.clientY < dialogDimensions.top ||
 			e.clientY > dialogDimensions.bottom
 		) {
-			dialog.close();
+			dialog.close()
 		}
-	};
+	}
 </script>
 
 <dialog bind:this={dialog} onclick={closeDialogOnOutsideClick} closedby="any" {...rest}>

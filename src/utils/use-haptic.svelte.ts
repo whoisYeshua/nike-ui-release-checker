@@ -7,14 +7,14 @@
  * @returns {boolean} `true` if the device is iOS/iPadOS; otherwise, `false`.
  */
 const checkIosDevice = (): boolean => {
-	const ua = navigator.userAgent;
-	const isIphone = /iPhone|iPod/.test(ua);
-	const isIpad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+	const ua = navigator.userAgent
+	const isIphone = /iPhone|iPod/.test(ua)
+	const isIpad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
 
-	return isIphone || isIpad;
-};
+	return isIphone || isIpad
+}
 
-const HIDDEN_ID = 'HIDDEN_LABEL';
+const HIDDEN_ID = 'HIDDEN_LABEL'
 
 /**
  * Creates a hidden `<label>` element containing a checkbox input.
@@ -24,25 +24,25 @@ const HIDDEN_ID = 'HIDDEN_LABEL';
  * @returns {HTMLLabelElement} The created label element.
  */
 const createHiddenSwitch = (): HTMLLabelElement => {
-	const label = document.createElement('label');
-	const input = document.createElement('input');
+	const label = document.createElement('label')
+	const input = document.createElement('input')
 
-	label.style.opacity = '0';
-	label.style.pointerEvents = 'none';
-	label.style.position = 'absolute';
-	label.style.left = '-9999px';
-	label.dataset.id = HIDDEN_ID;
-	input.type = 'checkbox';
-	input.setAttribute('switch', '');
-	label.appendChild(input);
+	label.style.opacity = '0'
+	label.style.pointerEvents = 'none'
+	label.style.position = 'absolute'
+	label.style.left = '-9999px'
+	label.dataset.id = HIDDEN_ID
+	input.type = 'checkbox'
+	input.setAttribute('switch', '')
+	label.appendChild(input)
 
-	return label;
-};
+	return label
+}
 
 const getHiddenSwitch = (): HTMLLabelElement => {
-	const hiddenSwitch = document.querySelector<HTMLLabelElement>(`label[data-id="${HIDDEN_ID}"]`);
-	return hiddenSwitch ?? createHiddenSwitch();
-};
+	const hiddenSwitch = document.querySelector<HTMLLabelElement>(`label[data-id="${HIDDEN_ID}"]`)
+	return hiddenSwitch ?? createHiddenSwitch()
+}
 
 /** Configuration options for the `useHaptic` composable. */
 type UseHapticOptions = {
@@ -50,14 +50,14 @@ type UseHapticOptions = {
 	 * The duration of the vibration in milliseconds.
 	 * @default 100
 	 */
-	hapticDuration?: number;
-};
+	hapticDuration?: number
+}
 
 /** The return type for `useHaptic`, providing the `vibrate` method. */
 type UseHaptic = {
 	/** Triggers the haptic feedback mechanism */
-	vibrate: () => void;
-};
+	vibrate: () => void
+}
 
 /**
  * Svelte 5 Rune composable for haptic feedback.
@@ -67,22 +67,22 @@ type UseHaptic = {
  * to clicking a hidden switch element to trigger haptic feedback.
  */
 export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseHaptic => {
-	const isBrowser = typeof window !== 'undefined';
-	let labelElement: HTMLLabelElement | null = null;
+	const isBrowser = typeof window !== 'undefined'
+	let labelElement: HTMLLabelElement | null = null
 
-	const canVibrate = isBrowser && !checkIosDevice() && Boolean(navigator?.vibrate);
+	const canVibrate = isBrowser && !checkIosDevice() && Boolean(navigator?.vibrate)
 
 	$effect(() => {
-		if (!isBrowser) return;
-		labelElement = getHiddenSwitch();
-		document.body.appendChild(labelElement);
+		if (!isBrowser) return
+		labelElement = getHiddenSwitch()
+		document.body.appendChild(labelElement)
 		return () => {
 			if (labelElement && labelElement.parentNode === document.body) {
-				document.body.removeChild(labelElement);
+				document.body.removeChild(labelElement)
 			}
-			labelElement = null;
-		};
-	});
+			labelElement = null
+		}
+	})
 
 	/**
 	 * Triggers haptic feedback. If `navigator.vibrate` is available,
@@ -93,13 +93,13 @@ export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseH
 	 * vibrate();
 	 */
 	const vibrate = () => {
-		if (!isBrowser) return;
+		if (!isBrowser) return
 		if (canVibrate) {
-			navigator.vibrate(hapticDuration);
+			navigator.vibrate(hapticDuration)
 		} else {
-			labelElement?.click();
+			labelElement?.click()
 		}
-	};
+	}
 
-	return { vibrate };
-};
+	return { vibrate }
+}

@@ -1,4 +1,4 @@
-import { delay, http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw'
 
 const sizes = [
 	{ size: '7', stock: 'HIGH' },
@@ -17,7 +17,7 @@ const sizes = [
 	{ size: '15', stock: 'MEDIUM' },
 	{ size: '16', stock: 'MEDIUM' },
 	{ size: '18', stock: 'MEDIUM' }
-] satisfies { size: string; stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA' }[];
+] satisfies { size: string; stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA' }[]
 
 // Sample release data
 let releases = [
@@ -96,12 +96,12 @@ let releases = [
 			}
 		]
 	}
-];
+]
 
 export const handlers = [
 	http.get('/api/releases', async () => {
-		await delay(1000);
-		const isError = false; // || window.confirm('Show error request?');
-		return HttpResponse.json(releases, { status: isError ? 500 : 200 });
+		await delay(1000)
+		const isError = false // || window.confirm('Show error request?');
+		return HttpResponse.json(releases, { status: isError ? 500 : 200 })
 	})
-];
+]

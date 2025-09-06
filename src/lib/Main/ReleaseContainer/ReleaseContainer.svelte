@@ -1,36 +1,36 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte'
 
 	interface Props {
-		children: Snippet;
-		childrenCount: number;
+		children: Snippet
+		childrenCount: number
 	}
 
-	const ITEMS_GAP = 24;
+	const ITEMS_GAP = 24
 
-	let { children, childrenCount }: Props = $props();
+	let { children, childrenCount }: Props = $props()
 
-	let activeIndex = $state(0);
-	let cardsContainer: HTMLDivElement;
+	let activeIndex = $state(0)
+	let cardsContainer: HTMLDivElement
 
 	const handleScroll = () => {
-		const scrollLeft = cardsContainer.scrollLeft;
-		const cardWidth = cardsContainer.clientWidth;
+		const scrollLeft = cardsContainer.scrollLeft
+		const cardWidth = cardsContainer.clientWidth
 
 		// Calculate which card is currently most visible
-		const currentIndex = Math.round(scrollLeft / (cardWidth + ITEMS_GAP));
-		activeIndex = Math.max(0, Math.min(currentIndex, cardsContainer.childElementCount - 1));
-	};
+		const currentIndex = Math.round(scrollLeft / (cardWidth + ITEMS_GAP))
+		activeIndex = Math.max(0, Math.min(currentIndex, cardsContainer.childElementCount - 1))
+	}
 
 	const scrollToItem = (index: number) => {
-		const cardWidth = cardsContainer.clientWidth;
-		const scrollPosition = index * (cardWidth + ITEMS_GAP);
+		const cardWidth = cardsContainer.clientWidth
+		const scrollPosition = index * (cardWidth + ITEMS_GAP)
 
 		cardsContainer.scrollTo({
 			left: scrollPosition,
 			behavior: 'smooth'
-		});
-	};
+		})
+	}
 </script>
 
 <div class="release-container">

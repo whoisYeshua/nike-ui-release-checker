@@ -1,49 +1,49 @@
 <script lang="ts">
-	import { useHaptic } from '$utils/use-haptic.svelte';
+	import { useHaptic } from '$utils/use-haptic.svelte'
 
-	import autoSvg from './auto.svg';
-	import darkSvg from './dark.svg';
-	import lightSvg from './light.svg';
+	import autoSvg from './auto.svg'
+	import darkSvg from './dark.svg'
+	import lightSvg from './light.svg'
 
-	type Scheme = 'auto' | 'dark' | 'light';
+	type Scheme = 'auto' | 'dark' | 'light'
 
 	const schemes = [
 		{ value: 'light', label: 'Light theme', icon: lightSvg },
 		{ value: 'auto', label: 'System theme', icon: autoSvg },
 		{ value: 'dark', label: 'Dark theme', icon: darkSvg }
-	];
+	]
 
-	const schemeFromLocalStorage = localStorage.getItem('color-scheme') as Scheme | null;
-	let scheme = $state<Scheme>(schemeFromLocalStorage ?? 'auto');
+	const schemeFromLocalStorage = localStorage.getItem('color-scheme') as Scheme | null
+	let scheme = $state<Scheme>(schemeFromLocalStorage ?? 'auto')
 
-	const { vibrate } = useHaptic();
+	const { vibrate } = useHaptic()
 
 	$effect(() => {
-		const colorScheme = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+		const colorScheme = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]')
 		const lightThemeColor = document.querySelector<HTMLMetaElement>(
 			'meta[name="theme-color"][data-id="light"]'
-		);
+		)
 		const darkThemeColor = document.querySelector<HTMLMetaElement>(
 			'meta[name="theme-color"][data-id="dark"]'
-		);
-		const rootHtmlElement = document.documentElement;
+		)
+		const rootHtmlElement = document.documentElement
 
 		if (scheme === 'auto') {
 			// TODO: check https://una.im/5-css-functions/ and remove class
-			rootHtmlElement.classList = '';
-			localStorage.removeItem('color-scheme');
-			colorScheme?.setAttribute('content', 'light dark');
-			lightThemeColor?.setAttribute('media', '(prefers-color-scheme: light)');
-			darkThemeColor?.setAttribute('media', '(prefers-color-scheme: dark)');
+			rootHtmlElement.classList = ''
+			localStorage.removeItem('color-scheme')
+			colorScheme?.setAttribute('content', 'light dark')
+			lightThemeColor?.setAttribute('media', '(prefers-color-scheme: light)')
+			darkThemeColor?.setAttribute('media', '(prefers-color-scheme: dark)')
 		} else {
 			// TODO: check https://una.im/5-css-functions/ and remove class
-			rootHtmlElement.classList = scheme;
-			localStorage.setItem('color-scheme', scheme);
-			colorScheme?.setAttribute('content', scheme);
-			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all');
-			darkThemeColor?.setAttribute('media', scheme === 'dark' ? 'all' : 'not all');
+			rootHtmlElement.classList = scheme
+			localStorage.setItem('color-scheme', scheme)
+			colorScheme?.setAttribute('content', scheme)
+			lightThemeColor?.setAttribute('media', scheme === 'light' ? 'all' : 'not all')
+			darkThemeColor?.setAttribute('media', scheme === 'dark' ? 'all' : 'not all')
 		}
-	});
+	})
 </script>
 
 <fieldset class="switcher touchable">

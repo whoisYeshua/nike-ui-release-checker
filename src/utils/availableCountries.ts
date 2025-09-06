@@ -63,15 +63,15 @@ export const availableCountries = [
 		language: 'en-GB',
 		emoji: '🇻🇳'
 	} // Looks like SNKRS redirect to Thailand
-] as const satisfies AvailableCountry[];
+] as const satisfies AvailableCountry[]
 
 export interface AvailableCountry {
-	code: string;
-	name: string;
-	description: string;
-	language: string;
-	emoji: string;
+	code: string
+	name: string
+	description: string
+	language: string
+	emoji: string
 }
 
-export type CountryCode = (typeof availableCountries)[number]['code'];
-export type CountryLanguage = (typeof availableCountries)[number]['language'];
+export type CountryCode = (typeof availableCountries)[number]['code']
+export type CountryLanguage = (typeof availableCountries)[number]['language']

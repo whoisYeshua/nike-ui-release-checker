@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Skeleton from '$lib/Skeleton.svelte';
+	import Skeleton from '$lib/Skeleton.svelte'
 </script>
 
 <div class="release-skeleton">

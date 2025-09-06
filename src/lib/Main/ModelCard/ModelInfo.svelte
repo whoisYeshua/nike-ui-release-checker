@@ -1,23 +1,23 @@
 <script lang="ts">
-	import Button from '$lib/Button.svelte';
-	import Modal from '$lib/Modal.svelte';
+	import Button from '$lib/Button.svelte'
+	import Modal from '$lib/Modal.svelte'
 
-	import QuestionIcon from './icons/QuestionIcon.svelte';
+	import QuestionIcon from './icons/QuestionIcon.svelte'
 
 	interface Props {
-		price?: string;
-		method?: string;
+		price?: string
+		method?: string
 	}
 
-	let { price, method }: Props = $props();
+	let { price, method }: Props = $props()
 
-	let formattedPrice = $derived(price ? price : '—');
+	let formattedPrice = $derived(price ? price : '—')
 
-	let dialog: HTMLDialogElement = $state()!;
+	let dialog: HTMLDialogElement = $state()!
 
 	const handleShare = () => {
-		dialog.showModal();
-	};
+		dialog.showModal()
+	}
 </script>
 
 <div class="model-info-container">

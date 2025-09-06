@@ -1,16 +1,16 @@
 <script lang="ts">
-	import CountrySelect from './CountrySelect/CountrySelect.svelte';
-	import EmptyReleases from './EmptyReleases/EmptyReleases.svelte';
-	import ErrorReleases from './ErrorReleases/ErrorReleases.svelte';
-	import ModelCard from './ModelCard/ModelCard.svelte';
-	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte';
-	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte';
-	import ReleaseSkeleton from './ReleaseSkeleton.svelte';
-	import { setupServiceProvider, useReleasesStore } from './services';
+	import CountrySelect from './CountrySelect/CountrySelect.svelte'
+	import EmptyReleases from './EmptyReleases/EmptyReleases.svelte'
+	import ErrorReleases from './ErrorReleases/ErrorReleases.svelte'
+	import ModelCard from './ModelCard/ModelCard.svelte'
+	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte'
+	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte'
+	import ReleaseSkeleton from './ReleaseSkeleton.svelte'
+	import { setupServiceProvider, useReleasesStore } from './services'
 
-	setupServiceProvider();
+	setupServiceProvider()
 
-	const releasesStore = useReleasesStore();
+	const releasesStore = useReleasesStore()
 </script>
 
 {#snippet releaseSkeleton()}

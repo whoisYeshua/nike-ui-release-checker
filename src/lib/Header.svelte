@@ -1,5 +1,5 @@
 <script lang="ts">
-	import logoSvg from '../assets/logo.svg';
+	import logoSvg from '../assets/logo.svg'
 </script>
 
 <header>

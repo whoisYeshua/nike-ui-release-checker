@@ -1,14 +1,14 @@
 <script lang="ts">
 	interface Size {
-		size: string;
-		stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA';
+		size: string
+		stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 	}
 
 	interface Props {
-		sizes: Size[];
+		sizes: Size[]
 	}
 
-	let { sizes }: Props = $props();
+	let { sizes }: Props = $props()
 
 	const stockColorMap = {
 		HIGH: 'var(--success)',
@@ -16,10 +16,10 @@
 		LOW: 'var(--error)',
 		OOS: 'var(--font-color)',
 		NA: '#ababab'
-	};
+	}
 
 	function getStockColor(stock: string): string {
-		return stockColorMap[stock as keyof typeof stockColorMap] || 'var(--font-color)';
+		return stockColorMap[stock as keyof typeof stockColorMap] || 'var(--font-color)'
 	}
 </script>
 

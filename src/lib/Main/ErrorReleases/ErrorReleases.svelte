@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Button from '$lib/Button.svelte';
+	import Button from '$lib/Button.svelte'
 
-	let { onClick, isRefetching }: { onClick: () => void; isRefetching: boolean } = $props();
+	let { onClick, isRefetching }: { onClick: () => void; isRefetching: boolean } = $props()
 </script>
 
 <div class="container">

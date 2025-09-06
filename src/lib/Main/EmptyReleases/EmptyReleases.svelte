@@ -1,5 +1,5 @@
 <script lang="ts">
-	import imgSrc from './empty-box.avif';
+	import imgSrc from './empty-box.avif'
 </script>
 
 <div class="container">

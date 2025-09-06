@@ -1,10 +1,10 @@
 <script lang="ts">
 	interface Props {
-		productCategory?: string;
-		productName?: string;
+		productCategory?: string
+		productName?: string
 	}
 
-	let { productCategory, productName }: Props = $props();
+	let { productCategory, productName }: Props = $props()
 </script>
 
 <div class="release-name-container">
