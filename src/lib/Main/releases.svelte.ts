@@ -1,11 +1,11 @@
-import type { ReleaseResponse } from '$models/Release'
+import type { FormattedProductFeedResponse } from '#snkrs-sdk'
 
 export class ReleasesStore {
-	status = $state<'uninitialized' | 'pending' | 'success' | 'error'>('uninitialized')
-	data = $state<ReleaseResponse | null>(null)
-	dataUpdatedAt = $state(0)
-	errorUpdatedAt = $state(0)
-	error = $state<unknown | null>(null)
+	status = $state.raw<'uninitialized' | 'pending' | 'success' | 'error'>('uninitialized')
+	data = $state.raw<FormattedProductFeedResponse | null>(null)
+	dataUpdatedAt = $state.raw(0)
+	errorUpdatedAt = $state.raw(0)
+	error = $state.raw<unknown | null>(null)
 	isUninitialized = $derived(this.status === 'uninitialized')
 	isFetching = $derived(this.status === 'pending')
 	isInitialLoading = $derived(
@@ -40,7 +40,9 @@ export class ReleasesStore {
 	#fetchRelease = async (code: string) => {
 		try {
 			this.status = 'pending'
-			const res = await fetch('/api/releases', { signal: this.#fetchAbortController.signal })
+			const res = await fetch(`/api/upcoming-releases/${code}`, {
+				signal: this.#fetchAbortController.signal
+			})
 			if (!res.ok) throw new Error(res.status?.toString())
 			this.data = await res.json()
 			this.status = 'success'

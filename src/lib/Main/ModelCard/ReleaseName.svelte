@@ -1,15 +1,15 @@
 <script lang="ts">
 	interface Props {
-		productCategory?: string
-		productName?: string
+		releaseName?: string
+		modelName?: string
 	}
 
-	let { productCategory, productName }: Props = $props()
+	let { releaseName, modelName }: Props = $props()
 </script>
 
 <div class="release-name-container">
-	<p class="product-category">{productCategory}</p>
-	<h3 class="product-name">{productName}</h3>
+	<p class="product-category">{releaseName}</p>
+	<h3 class="product-name">{modelName}</h3>
 </div>
 
 <style>
@@ -17,7 +17,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
-		margin-top: auto;
 	}
 
 	.product-category {

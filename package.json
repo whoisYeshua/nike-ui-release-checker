@@ -4,7 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"imports": {
-		"#snkrs-sdk": "./nike-release-checker/snkrs-sdk/index.ts"
+		"#snkrs-sdk": "./nike-release-checker/snkrs-sdk/index.ts",
+		"#snkrs-sdk/mocks/handlers": "./nike-release-checker/snkrs-sdk/mocks/handlers/handlers.ts"
 	},
 	"scripts": {
 		"dev": "vite",

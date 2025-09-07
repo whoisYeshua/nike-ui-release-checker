@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { formatCurrency } from '$utils/formatCurrency'
+	import { formatDate } from '$utils/formatDate'
+
 	import CountrySelect from './CountrySelect/CountrySelect.svelte'
 	import EmptyReleases from './EmptyReleases/EmptyReleases.svelte'
 	import ErrorReleases from './ErrorReleases/ErrorReleases.svelte'
@@ -24,11 +27,19 @@
 {#snippet loadedReleases()}
 	{#if releasesStore.data?.length}
 		<div class="releases__grid">
-			{#each releasesStore.data as release (release.productName)}
+			{#each releasesStore.data as release (release.slug)}
 				<ReleaseContainer childrenCount={release.models.length}>
-					{#each release.models as model (model.productName)}
+					{#each release.models as model (model.id)}
 						<ReleaseContainerItem>
-							<ModelCard {...model} />
+							<ModelCard
+								releaseName={release.title}
+								modelName={model.modelName}
+								method={model.launchView?.method}
+								price={formatCurrency(model.merchPrice.currentPrice, model.merchPrice.currency)}
+								releaseDate={formatDate(model?.launchView?.startEntryDate)}
+								sizes={model.sizes}
+								imageUrl={release.consistentImageUrl}
+							/>
 						</ReleaseContainerItem>
 					{/each}
 				</ReleaseContainer>

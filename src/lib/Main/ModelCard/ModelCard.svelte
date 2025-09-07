@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/Button.svelte'
+	import { formatDate } from '$utils/formatDate'
 
 	import Divider from './Divider.svelte'
 	import BellAlertIcon from './icons/BellAlertIcon.svelte'
@@ -12,27 +13,19 @@
 	interface Props {
 		imageUrl?: string
 		releaseDate?: string
-		productCategory?: string
-		productName?: string
+		releaseName?: string
+		modelName?: string
 		price?: string
 		method?: string
 		sizes?: Array<{
 			size: string
-			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
+			level: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 		}>
 		isSubscribed?: boolean
 	}
 
-	let {
-		imageUrl,
-		releaseDate,
-		productCategory,
-		productName,
-		price,
-		method,
-		sizes,
-		isSubscribed
-	}: Props = $props()
+	let { imageUrl, releaseDate, releaseName, modelName, price, method, sizes, isSubscribed }: Props =
+		$props()
 
 	let subscriptionState = $state(isSubscribed)
 
@@ -44,10 +37,10 @@
 <article class="card-container">
 	<div class="product-image" style="background-image: url('{imageUrl}')"></div>
 
-	<div class="release-date">{releaseDate}</div>
+	<div class="release-date">{formatDate(releaseDate)}</div>
 
 	<div class="card-body">
-		<ReleaseName {productCategory} {productName} />
+		<ReleaseName {releaseName} {modelName} />
 
 		<Divider />
 
@@ -69,15 +62,7 @@
 					{/if}
 				{/snippet}
 			</Button>
-			<ShareButton
-				{imageUrl}
-				{releaseDate}
-				{productCategory}
-				{productName}
-				{price}
-				{method}
-				{sizes}
-			/>
+			<ShareButton {imageUrl} {releaseDate} {releaseName} {modelName} {price} {method} {sizes} />
 		</div>
 	</div>
 </article>
@@ -131,6 +116,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		margin-top: auto;
 		padding-top: 0.375rem;
 		width: 100%;
 	}

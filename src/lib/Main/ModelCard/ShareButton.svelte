@@ -10,27 +10,26 @@
 	interface Props {
 		imageUrl?: string
 		releaseDate?: string
-		productCategory?: string
-		productName?: string
+		releaseName?: string
+		modelName?: string
 		price?: string
 		method?: string
 		sizes?: Array<{
 			size: string
-			stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
+			level: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 		}>
 	}
 
-	let { imageUrl, releaseDate, productCategory, productName, price, method, sizes }: Props =
-		$props()
+	let { imageUrl, releaseDate, releaseName, modelName, price, method, sizes }: Props = $props()
 
 	const formatReleaseText = () => {
 		let text = ''
 
 		// Product info
-		if (productCategory && productName) {
-			text += `${productCategory} - ${productName}\n`
-		} else if (productName) {
-			text += `${productName}\n`
+		if (releaseName && modelName) {
+			text += `${releaseName} - ${modelName}\n`
+		} else if (modelName) {
+			text += `${modelName}\n`
 		}
 
 		// Release date
@@ -51,14 +50,14 @@
 		if (sizes && sizes.length > 0) {
 			text += '\nStock Status:\n'
 			sizes.forEach((sizeInfo) => {
-				const stockStatusMap = {
+				const stockLevelStatusMap = {
 					HIGH: '🟢 High',
 					MEDIUM: '🟡 Medium',
 					LOW: '🔴 Low',
 					OOS: '❌ Out of Stock',
 					NA: '❓ Not Available'
 				}
-				const stockStatus = stockStatusMap[sizeInfo.stock]
+				const stockStatus = stockLevelStatusMap[sizeInfo.level]
 				text += `  Size ${sizeInfo.size}: ${stockStatus}\n`
 			})
 		}
@@ -69,7 +68,7 @@
 	const handleShare = async () => {
 		const shareText = formatReleaseText()
 		const shareData: ShareData = {
-			title: productName || 'Nike Release',
+			title: modelName || 'Nike Release',
 			text: shareText,
 			url: window.location.href
 		}

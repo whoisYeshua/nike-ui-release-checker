@@ -1,7 +1,7 @@
 <script lang="ts">
 	interface Size {
 		size: string
-		stock: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
+		level: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 	}
 
 	interface Props {
@@ -18,17 +18,21 @@
 		NA: '#ababab'
 	}
 
-	function getStockColor(stock: string): string {
-		return stockColorMap[stock as keyof typeof stockColorMap] || 'var(--font-color)'
+	function getStockLevelColor(stockLevel: string): string {
+		return stockColorMap[stockLevel as keyof typeof stockColorMap] || 'var(--font-color)'
 	}
+
+	const isLongSize = $derived(
+		sizes.some((size) => size.size.includes('.') && size.size.includes('C'))
+	)
 </script>
 
 <div class="size-stock">
 	<div class="size-stock__header">Size — Stock:</div>
 	<div class="size-stock__grid">
-		{#each sizes as { size, stock }}
-			<div class="size-stock__item" style:color={getStockColor(stock)}>
-				<span class="size">{size} </span>— {stock}
+		{#each sizes as { size, level }}
+			<div class="size-stock__item" style:color={getStockLevelColor(level)}>
+				<span class="size" style:width={isLongSize ? '5ch' : '4ch'}>{size} </span>— {level}
 			</div>
 		{/each}
 	</div>
@@ -62,6 +66,5 @@
 
 	.size {
 		display: inline-block;
-		width: 4ch;
 	}
 </style>
