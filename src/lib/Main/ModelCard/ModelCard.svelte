@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/Button.svelte'
 	import { formatDate } from '$utils/formatDate'
+	import { getAverageColor, getContrast } from '$utils/getImageData'
 
 	import Divider from './Divider.svelte'
 	import BellAlertIcon from './icons/BellAlertIcon.svelte'
@@ -32,12 +33,28 @@
 	function handleSubscribe() {
 		subscriptionState = !subscriptionState
 	}
+
+	let isDarkImageBackground = $state(false)
+
+	$effect(() => {
+		if (!imageUrl) return
+		getAverageColor(imageUrl, { format: 'hex' }).then((data) => {
+			isDarkImageBackground = getContrast(data) === 'dark'
+		})
+	})
 </script>
 
 <article class="card-container">
 	<div class="product-image" style="background-image: url('{imageUrl}')"></div>
 
-	<div class="release-date">{formatDate(releaseDate)}</div>
+	<div
+		class="release-date"
+		style:--release-date-color={isDarkImageBackground
+			? 'var(--release-date-light-color)'
+			: 'var(--release-date-dark-color)'}
+	>
+		{formatDate(releaseDate)}
+	</div>
 
 	<div class="card-body">
 		<ReleaseName {releaseName} {modelName} />
@@ -94,10 +111,12 @@
 	}
 
 	.release-date {
+		--release-date-light-color: hsl(210, 10%, 84%);
+		--release-date-dark-color: hsl(208, 37%, 20%);
 		position: absolute;
 		top: var(--release-card-padding);
 		left: var(--release-card-padding);
-		color: hsl(208, 37%, 20%);
+		color: var(--release-date-color);
 		font-size: 20px;
 		line-height: 24px;
 	}
