@@ -2,8 +2,6 @@ import { availableCountries, formatProductFeedResponse, getProductFeed } from '#
 import { handlers as snkrsSdkHandlers } from '#snkrs-sdk/mocks/handlers'
 import { bypass, delay, http, HttpResponse } from 'msw'
 
-console.log(snkrsSdkHandlers)
-
 export const handlers = [
 	http.get('/api/upcoming-releases/:countryCode', async ({ params }) => {
 		try {
@@ -18,8 +16,6 @@ export const handlers = [
 				language: country.language
 			})
 			const result = formatProductFeedResponse(releases)
-
-			console.log('result', result)
 
 			return HttpResponse.json(result, { status: 200 })
 		} catch (error) {
