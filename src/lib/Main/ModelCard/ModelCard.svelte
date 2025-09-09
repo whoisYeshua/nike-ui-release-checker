@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/Button.svelte'
 	import { formatDate } from '$utils/formatDate'
-	import { getAverageColor, getContrast } from '$utils/getImageData'
+	import { getContrast, getTopLeftAverageColor } from '$utils/getImageData'
 
 	import Divider from './Divider.svelte'
 	import BellAlertIcon from './icons/BellAlertIcon.svelte'
@@ -23,38 +23,48 @@
 			level: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 		}>
 		isSubscribed?: boolean
+		isLazyImage?: boolean
 	}
 
-	let { imageUrl, releaseDate, releaseName, modelName, price, method, sizes, isSubscribed }: Props =
-		$props()
+	let {
+		imageUrl,
+		releaseDate,
+		releaseName,
+		modelName,
+		price,
+		method,
+		sizes,
+		isSubscribed,
+		isLazyImage
+	}: Props = $props()
 
 	let subscriptionState = $state(isSubscribed)
 
 	function handleSubscribe() {
 		subscriptionState = !subscriptionState
 	}
-
-	let isDarkImageBackground = $state(false)
-
-	$effect(() => {
-		if (!imageUrl) return
-		getAverageColor(imageUrl, { format: 'hex' }).then((data) => {
-			isDarkImageBackground = getContrast(data) === 'dark'
-		})
-	})
 </script>
 
 <article class="card-container">
-	<div class="product-image" style="background-image: url('{imageUrl}')"></div>
+	<img
+		class="product-image"
+		src={imageUrl}
+		alt={releaseName || modelName || 'Product image'}
+		loading={isLazyImage ? 'lazy' : 'eager'}
+	/>
 
-	<div
-		class="release-date"
-		style:--release-date-color={isDarkImageBackground
-			? 'var(--release-date-light-color)'
-			: 'var(--release-date-dark-color)'}
-	>
-		{formatDate(releaseDate)}
-	</div>
+	{#if imageUrl}
+		{#await getTopLeftAverageColor(imageUrl, { format: 'hex' }) then data}
+			<div
+				class="release-date"
+				style:--release-date-color={getContrast(data) === 'dark'
+					? 'var(--release-date-light-color)'
+					: 'var(--release-date-dark-color)'}
+			>
+				{formatDate(releaseDate)}
+			</div>
+		{/await}
+	{/if}
 
 	<div class="card-body">
 		<ReleaseName {releaseName} {modelName} />
@@ -102,12 +112,12 @@
 	}
 
 	.product-image {
-		background-size: cover;
-		background-repeat: no-repeat;
+		display: block;
 		background-color: var(--white);
-		background-position-y: -130px;
+		width: 100%;
 		min-height: 15.125rem;
 		max-height: 15.125rem;
+		object-fit: cover;
 	}
 
 	.release-date {

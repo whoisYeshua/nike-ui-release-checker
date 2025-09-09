@@ -27,9 +27,9 @@
 {#snippet loadedReleases()}
 	{#if releasesStore.data?.length}
 		<div class="releases__grid">
-			{#each releasesStore.data as release (release.slug)}
+			{#each releasesStore.data as release, releaseIndex (release.slug)}
 				<ReleaseContainer childrenCount={release.models.length}>
-					{#each release.models as model (model.id)}
+					{#each release.models as model, modelIndex (model.id)}
 						<ReleaseContainerItem>
 							<ModelCard
 								releaseName={release.title}
@@ -38,7 +38,8 @@
 								price={formatCurrency(model.merchPrice.currentPrice, model.merchPrice.currency)}
 								releaseDate={formatDate(model?.launchView?.startEntryDate)}
 								sizes={model.sizes}
-								imageUrl={release.consistentImageUrl}
+								imageUrl={model.imageUrl || release.imageUrl}
+								isLazyImage={releaseIndex >= 8 || modelIndex >= 1}
 							/>
 						</ReleaseContainerItem>
 					{/each}

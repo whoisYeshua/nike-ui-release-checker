@@ -17,5 +17,20 @@ if (process.env.MOBILE_MODE) {
 }
 
 export default defineConfig({
-	plugins
+	plugins,
+	server: {
+		proxy: {
+			// Proxy Nike API requests to bypass CORS when using server-mock
+			'/api/nike': {
+				target: 'https://api.nike.com',
+				changeOrigin: true,
+				rewrite: (path) => {
+					console.log('VITE PROXY REWRITE PATH (Original):', path)
+					const newPath = path.replace(/^\/api\/nike/, '')
+					console.log('VITE PROXY REWRITE PATH (New):', newPath)
+					return newPath
+				}
+			}
+		}
+	}
 })

@@ -35,7 +35,7 @@ const rgbToHex = (rgb: Rgb): Hex =>
 		})
 		.join('')
 
-const getImageData = (src: Url): Promise<Data> =>
+const getImageData = (src: Url, zone: number = 1): Promise<Data> =>
 	new Promise((resolve, reject) => {
 		const canvas = document.createElement('canvas')
 		const context = canvas.getContext('2d')!
@@ -48,7 +48,7 @@ const getImageData = (src: Url): Promise<Data> =>
 				canvas.width = img.width
 				context.drawImage(img, 0, 0)
 
-				const data = context.getImageData(0, 0, img.width, img.height).data
+				const data = context.getImageData(0, 0, img.width * zone, img.height * zone).data
 
 				resolve(data)
 			},
@@ -86,6 +86,19 @@ export async function getAverageColor(
 ): Promise<Hex>
 export async function getAverageColor(item: Item, args?: Partial<Args>): Promise<Output> {
 	const data = await getImageData(getSrc(item))
+	return getAverage(data, getDefaultArgs(args))
+}
+
+export async function getTopLeftAverageColor(
+	item: Item,
+	args?: Partial<Args> & { format: 'array' }
+): Promise<Rgb>
+export async function getTopLeftAverageColor(
+	item: Item,
+	args?: Partial<Args> & { format: 'hex' }
+): Promise<Hex>
+export async function getTopLeftAverageColor(item: Item, args?: Partial<Args>): Promise<Output> {
+	const data = await getImageData(getSrc(item), 0.5)
 	return getAverage(data, getDefaultArgs(args))
 }
 

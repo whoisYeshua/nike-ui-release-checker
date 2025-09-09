@@ -1,3 +1,5 @@
+import { getAbortSignal } from 'svelte'
+
 import type { FormattedProductFeedResponse } from '#snkrs-sdk'
 
 export class ReleasesStore {
@@ -24,7 +26,6 @@ export class ReleasesStore {
 			$effect(() => {
 				if (!countryStore.value?.code) return
 
-				this.#restartController()
 				this.#lastParams = countryStore.value.code
 				this.#fetchRelease(countryStore.value.code)
 			})
@@ -33,15 +34,15 @@ export class ReleasesStore {
 
 	refetch = async () => {
 		if (!this.#lastParams) return
-		this.#restartController()
 		await this.#fetchRelease(this.#lastParams)
 	}
 
 	#fetchRelease = async (code: string) => {
+		const signal = getAbortSignal()
 		try {
 			this.status = 'pending'
 			const res = await fetch(`/api/upcoming-releases/${code}`, {
-				signal: this.#fetchAbortController.signal
+				signal: signal
 			})
 			if (!res.ok) throw new Error(res.status?.toString())
 			this.data = await res.json()
@@ -49,16 +50,11 @@ export class ReleasesStore {
 			this.dataUpdatedAt = Date.now()
 			this.error = null
 		} catch (error) {
-			if (error === this.#silentAbort) return
+			if (signal?.reason === error) return
 
 			this.error = error
 			this.status = 'error'
 			this.errorUpdatedAt = Date.now()
 		}
-	}
-
-	#restartController = () => {
-		this.#fetchAbortController.abort(this.#silentAbort)
-		this.#fetchAbortController = new AbortController()
 	}
 }
