@@ -20,7 +20,7 @@ export default defineConfig({
 	plugins,
 	server: {
 		proxy: {
-			// Proxy Nike API requests to bypass CORS when using server-mock
+			// Proxy Nike API requests to bypass CORS when using vite-proxy-nike query param
 			'/api/nike': {
 				target: 'https://api.nike.com',
 				changeOrigin: true,

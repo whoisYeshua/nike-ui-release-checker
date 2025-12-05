@@ -6,7 +6,7 @@ const match6or8Hex = `#?[${hexCharacters}]{6}([${hexCharacters}]{2})?`
 const nonHexChars = new RegExp(`[^#${hexCharacters}]`, 'gi')
 const validHexSize = new RegExp(`^${match3or4Hex}$|^${match6or8Hex}$`, 'i')
 
-export interface Options {
+interface Options {
 	/**
 	 * The RGB output format. Note that when using the `css` format, the value of the alpha channel is rounded to two decimal places.
 	 * @default 'object'
@@ -14,14 +14,14 @@ export interface Options {
 	readonly format?: 'object' | 'array' | 'css'
 }
 
-export interface RgbaObject {
+interface RgbaObject {
 	red: number
 	green: number
 	blue: number
 	alpha: number
 }
 
-export type RgbaTuple = [red: number, green: number, blue: number, alpha: number]
+type RgbaTuple = [red: number, green: number, blue: number, alpha: number]
 
 /**
  * Convert HEX color to RGBA.

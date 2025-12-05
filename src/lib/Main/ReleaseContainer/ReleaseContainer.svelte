@@ -48,6 +48,7 @@
 				class="models-count__item touchable"
 				class:active={index === activeIndex}
 				aria-label="Go to item {index + 1}"
+				tabindex="-1"
 				onclick={() => scrollToItem(index)}
 			></button>
 		{/each}

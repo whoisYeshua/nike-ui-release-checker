@@ -1,18 +1,14 @@
 import { CountryStore } from '../country.svelte'
 import { ReleasesStore } from '../releases.svelte'
 
-/**
- * Провайдер сервисов с ленивой инициализацией
- */
+/** Провайдер сервисов с ленивой инициализацией */
 export class ServiceProvider {
 	static #countryStore: CountryStore
 	static #releasesStore: ReleasesStore
 
 	constructor() {}
 
-	/**
-	 * Получить CountryStore (singleton)
-	 */
+	/** Получить CountryStore (singleton) */
 	getCountryStore(): CountryStore {
 		if (!ServiceProvider.#countryStore) {
 			ServiceProvider.#countryStore = new CountryStore()
@@ -20,9 +16,7 @@ export class ServiceProvider {
 		return ServiceProvider.#countryStore
 	}
 
-	/**
-	 * Получить ReleasesStore (singleton)
-	 */
+	/** Получить ReleasesStore (singleton) */
 	getReleasesStore(): ReleasesStore {
 		if (!ServiceProvider.#releasesStore) {
 			const countryStore = this.getCountryStore()
@@ -31,5 +25,3 @@ export class ServiceProvider {
 		return ServiceProvider.#releasesStore
 	}
 }
-
-export const serviceProvider = new ServiceProvider()

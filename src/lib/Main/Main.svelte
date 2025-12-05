@@ -21,6 +21,7 @@
 		<ReleaseSkeleton />
 		<ReleaseSkeleton />
 		<ReleaseSkeleton />
+		<ReleaseSkeleton />
 	</div>
 {/snippet}
 
@@ -60,10 +61,10 @@
 			Upcoming releases
 			<span class="releases__title-count">{releasesStore.data?.length}</span>
 		</h2>
-		{#if releasesStore.isInitialLoading}
-			{@render releaseSkeleton()}
-		{:else if releasesStore.error}
+		{#if releasesStore.error}
 			<ErrorReleases onClick={releasesStore.refetch} isRefetching={releasesStore.isRefetching} />
+		{:else if releasesStore.isFetching}
+			{@render releaseSkeleton()}
 		{:else}
 			{@render loadedReleases()}
 		{/if}

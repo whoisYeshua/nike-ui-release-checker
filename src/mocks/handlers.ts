@@ -2,6 +2,8 @@ import { availableCountries, formatProductFeedResponse, getProductFeed } from '#
 import { handlers as snkrsSdkHandlers } from '#snkrs-sdk/mocks/handlers'
 import { bypass, delay, http, HttpResponse } from 'msw'
 
+const USE_NEXT_HANDLER = undefined
+
 export const handlers = [
 	http.get('/api/upcoming-releases/:countryCode', async ({ params }) => {
 		try {
@@ -22,12 +24,18 @@ export const handlers = [
 			return HttpResponse.json({ error: 'Failed to fetch releases' }, { status: 400 })
 		}
 	}),
+	/*
+	 * When the page is opened with ?vite-proxy-nike=true, skip MSW's mocked
+	 * Nike endpoint and forward the request to the Vite dev proxy (`/api/nike`).
+	 * The proxy (see vite.config.ts) rewrites that path to api.nike.com so the
+	 * app can hit the real Nike API while keeping CORS satisfied.
+	 */
 	http.get(snkrsSdkHandlers[0].info.path, ({ request }) => {
 		const pageParams = new URLSearchParams(window.location.search)
-		const isServerMock = pageParams.get('server-mock')
+		const shouldProxyNike = pageParams.get('vite-proxy-nike')
 
-		// When server-mock is enabled, rewrite URL to point to Vite proxy
-		if (isServerMock) {
+		// When vite-proxy-nike is enabled, rewrite URL to point to Vite proxy
+		if (shouldProxyNike) {
 			const originalUrl = new URL(request.url)
 			// Rewrite Nike API domain to our local Vite proxy endpoint
 			const proxyUrl = originalUrl.href.replace(
@@ -44,7 +52,6 @@ export const handlers = [
 		}
 
 		// Otherwise, let other handlers handle it
-		const USE_NEXT_HANDLER = undefined
 		return USE_NEXT_HANDLER
 	}),
 	...snkrsSdkHandlers
