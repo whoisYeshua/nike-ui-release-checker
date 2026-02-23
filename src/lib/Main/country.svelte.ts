@@ -1,6 +1,6 @@
-import { availableCountries } from '#snkrs-sdk'
+import { availableCountries } from '@nike-release-checker/sdk'
 
-import type { AvailableCountry, CountryCode } from '#snkrs-sdk'
+import type { AvailableCountry, CountryCode } from '@nike-release-checker/sdk'
 
 const isBrowser = typeof window !== 'undefined'
 

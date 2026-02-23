@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { availableCountries } from '#snkrs-sdk'
+	import { availableCountries } from '@nike-release-checker/sdk'
 
 	import { useCountryStore } from '../services'
 
-	import type { AvailableCountry } from '#snkrs-sdk'
+	import type { AvailableCountry } from '@nike-release-checker/sdk'
 
 	const countryStore = useCountryStore()
 </script>

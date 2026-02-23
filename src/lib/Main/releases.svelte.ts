@@ -1,8 +1,9 @@
 import { AsyncStore } from './services/async-store.svelte'
 
-import type { FormattedProductFeedResponse } from '#snkrs-sdk'
+import type { formatProductFeedResponse } from '@nike-release-checker/sdk'
 
 type CountryStoreValue = { value?: { code?: string } | null }
+type FormattedProductFeedResponse = ReturnType<typeof formatProductFeedResponse>
 
 export class ReleasesStore extends AsyncStore<FormattedProductFeedResponse, string> {
 	constructor(countryStore: CountryStoreValue) {

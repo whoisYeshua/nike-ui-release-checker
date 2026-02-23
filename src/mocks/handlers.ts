@@ -1,5 +1,9 @@
-import { availableCountries, formatProductFeedResponse, getProductFeed } from '#snkrs-sdk'
-import { handlers as snkrsSdkHandlers } from '#snkrs-sdk/mocks/handlers'
+import {
+	availableCountries,
+	formatProductFeedResponse,
+	getProductFeed
+} from '@nike-release-checker/sdk'
+import { handlers as snkrsSdkHandlers } from '@nike-release-checker/sdk/mocks/handlers'
 import { bypass, delay, http, HttpResponse } from 'msw'
 
 const USE_NEXT_HANDLER = undefined
