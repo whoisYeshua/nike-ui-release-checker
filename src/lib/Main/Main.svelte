@@ -39,7 +39,7 @@
 								price={formatCurrency(model.merchPrice.currentPrice, model.merchPrice.currency)}
 								releaseDate={formatDate(model?.launchView?.startEntryDate)}
 								sizes={model.sizes}
-								imageUrl={model.imageUrl || release.imageUrl}
+								imageUrl={release.imageUrl}
 								isLazyImage={releaseIndex >= 8 || modelIndex >= 1}
 							/>
 						</ReleaseContainerItem>

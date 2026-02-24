@@ -38,7 +38,7 @@
 		isLazyImage
 	}: Props = $props()
 
-	let subscriptionState = $state(isSubscribed)
+	let subscriptionState = $derived(isSubscribed ?? false)
 
 	function handleSubscribe() {
 		subscriptionState = !subscriptionState

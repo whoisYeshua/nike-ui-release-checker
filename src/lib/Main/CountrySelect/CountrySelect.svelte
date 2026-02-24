@@ -3,39 +3,26 @@
 
 	import { useCountryStore } from '../services'
 
-	import type { AvailableCountry } from '@nike-release-checker/sdk'
-
 	const countryStore = useCountryStore()
 </script>
 
-{#snippet selectedContent()}
+<select bind:value={countryStore.value} name="country" aria-label="SNKRS Country">
 	<button aria-label="Selected country">
 		<selectedcontent></selectedcontent>
 		<svg width="24" height="24" viewBox="0 0 24 24">
 			<path fill="currentColor" d="m7 10l5 5l5-5z" />
 		</svg>
 	</button>
-{/snippet}
-
-{#snippet placeholderContent()}
 	<option value={null} disabled>Select a country</option>
-{/snippet}
 
-{#snippet optionContent(country: AvailableCountry)}
-	<div class="custom-option">
-		<span class="custom-option__text">{country.emoji} {country.name}</span>
-		{#if country.description}
-			<small class="custom-option__description">({country.description})</small>
-		{/if}
-	</div>
-{/snippet}
-
-<select bind:value={countryStore.value} name="country" aria-label="SNKRS Country">
-	{@render selectedContent()}
-	{@render placeholderContent()}
-	{#each availableCountries as country}
+	{#each availableCountries as country (country.name)}
 		<option value={country}>
-			{@render optionContent(country)}
+			<div class="custom-option">
+				<span class="custom-option__text">{country.emoji} {country.name}</span>
+				{#if country.description}
+					<small class="custom-option__description">({country.description})</small>
+				{/if}
+			</div>
 		</option>
 	{/each}
 </select>

@@ -4,17 +4,13 @@ import { defineConfig } from 'vite'
 import { qrcode } from 'vite-plugin-qrcode'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-const plugins = [svelte(), tsconfigPaths()]
-
-if (process.env.MOBILE_MODE) {
-	plugins.push(
-		qrcode(),
-		basicSsl({
-			name: 'nike-release-checker',
-			certDir: import.meta.dirname
-		})
-	)
-}
+const plugins = [
+	svelte(),
+	tsconfigPaths(),
+	...(process.env.MOBILE_MODE
+		? [qrcode(), basicSsl({ name: 'nike-release-checker', certDir: import.meta.dirname })]
+		: [])
+]
 
 export default defineConfig({
 	plugins,
