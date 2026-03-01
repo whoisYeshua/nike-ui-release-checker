@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "sentry-svelte-sdk": {
+      "source": "getsentry/sentry-agent-skills",
+      "sourceType": "github",
+      "computedHash": "728a4255c0511a8004e106d66a92318ef92ac5729199ba7b5b5c88bc6a3ff2d1"
+    },
     "svelte-code-writer": {
       "source": "sveltejs/mcp",
       "sourceType": "github",

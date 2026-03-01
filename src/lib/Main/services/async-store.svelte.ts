@@ -1,5 +1,7 @@
 import { getAbortSignal } from 'svelte'
 
+import * as Sentry from '@sentry/svelte'
+
 type AsyncStoreStatus = 'uninitialized' | 'pending' | 'success' | 'error'
 
 export abstract class AsyncStore<TData, TParams> {
@@ -50,6 +52,7 @@ export abstract class AsyncStore<TData, TParams> {
 		} catch (error) {
 			if (signal?.reason === error) return
 
+			Sentry.captureException(error)
 			this.error = error
 			this.status = 'error'
 			this.errorUpdatedAt = Date.now()

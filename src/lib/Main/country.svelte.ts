@@ -1,4 +1,5 @@
 import { availableCountries } from '@nike-release-checker/sdk'
+import * as Sentry from '@sentry/svelte'
 
 import type { AvailableCountry, CountryCode } from '@nike-release-checker/sdk'
 
@@ -14,6 +15,7 @@ export class CountryStore {
 	set value(selectedCountry: AvailableCountry | null) {
 		this.#value = selectedCountry
 		if (!selectedCountry) return
+		Sentry.metrics.count('country.selected', 1, { attributes: { country: selectedCountry.code } })
 		if (isBrowser) localStorage.setItem(this.#storageKey, selectedCountry.code)
 	}
 

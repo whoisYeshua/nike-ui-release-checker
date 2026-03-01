@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as Sentry from '@sentry/svelte'
 	import Button from '$lib/Button.svelte'
 	import { convertImageUrlToFile } from '$utils/convertImageUrlToFile'
 
@@ -79,6 +80,9 @@
 		}
 
 		await navigator.share(shareData)
+		Sentry.metrics.count('release.shared', 1, {
+			attributes: { model_name: modelName, release_name: releaseName }
+		})
 	}
 </script>
 
