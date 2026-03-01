@@ -14,7 +14,8 @@ const checkIosDevice = (): boolean => {
 	return isIphone || isIpad
 }
 
-const HIDDEN_ID = 'HIDDEN_LABEL'
+let sharedHiddenSwitch: HTMLLabelElement | null = null
+let hiddenSwitchConsumers = 0
 
 /**
  * Creates a hidden `<label>` element containing a checkbox input.
@@ -31,7 +32,6 @@ const createHiddenSwitch = (): HTMLLabelElement => {
 	label.style.pointerEvents = 'none'
 	label.style.position = 'absolute'
 	label.style.left = '-9999px'
-	label.dataset.id = HIDDEN_ID
 	input.type = 'checkbox'
 	input.setAttribute('switch', '')
 	label.appendChild(input)
@@ -39,9 +39,21 @@ const createHiddenSwitch = (): HTMLLabelElement => {
 	return label
 }
 
-const getHiddenSwitch = (): HTMLLabelElement => {
-	const hiddenSwitch = document.querySelector<HTMLLabelElement>(`label[data-id="${HIDDEN_ID}"]`)
-	return hiddenSwitch ?? createHiddenSwitch()
+const getOrAttachHiddenSwitch = (): HTMLLabelElement => {
+	const hiddenSwitch = (sharedHiddenSwitch ??= createHiddenSwitch())
+	if (!hiddenSwitch.parentNode) {
+		document.body.appendChild(hiddenSwitch)
+	}
+	return hiddenSwitch
+}
+
+const releaseHiddenSwitch = () => {
+	if (hiddenSwitchConsumers <= 0) return
+	hiddenSwitchConsumers--
+	if (hiddenSwitchConsumers === 0 && sharedHiddenSwitch?.parentNode === document.body) {
+		document.body.removeChild(sharedHiddenSwitch)
+		sharedHiddenSwitch = null
+	}
 }
 
 /** Configuration options for the `useHaptic` composable. */
@@ -68,19 +80,15 @@ type UseHaptic = {
  */
 export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseHaptic => {
 	const isBrowser = typeof window !== 'undefined'
-	let labelElement: HTMLLabelElement | null = null
 
 	const canVibrate = isBrowser && !checkIosDevice() && Boolean(navigator?.vibrate)
 
 	$effect(() => {
-		if (!isBrowser) return
-		labelElement = getHiddenSwitch()
-		document.body.appendChild(labelElement)
+		if (canVibrate) return
+		hiddenSwitchConsumers += 1
+		getOrAttachHiddenSwitch()
 		return () => {
-			if (labelElement && labelElement.parentNode === document.body) {
-				document.body.removeChild(labelElement)
-			}
-			labelElement = null
+			releaseHiddenSwitch()
 		}
 	})
 
@@ -97,7 +105,8 @@ export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseH
 		if (canVibrate) {
 			navigator.vibrate(hapticDuration)
 		} else {
-			labelElement?.click()
+			const hiddenSwitch = getOrAttachHiddenSwitch()
+			hiddenSwitch.click()
 		}
 	}
 

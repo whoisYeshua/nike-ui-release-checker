@@ -13,7 +13,10 @@
 		{ value: 'dark', label: 'Dark theme', icon: darkSvg }
 	]
 
-	const schemeFromLocalStorage = localStorage.getItem('color-scheme') as Scheme | null
+	const isBrowser = typeof window !== 'undefined'
+	const schemeFromLocalStorage = isBrowser
+		? (localStorage.getItem('color-scheme') as Scheme | null)
+		: null
 	let scheme = $state<Scheme>(schemeFromLocalStorage ?? 'auto')
 
 	const { vibrate } = useHaptic()

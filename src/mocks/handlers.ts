@@ -29,10 +29,16 @@ export const handlers = [
 		}
 	}),
 	/*
-	 * When the page is opened with ?vite-proxy-nike=true, skip MSW's mocked
-	 * Nike endpoint and forward the request to the Vite dev proxy (`/api/nike`).
-	 * The proxy (see vite.config.ts) rewrites that path to api.nike.com so the
-	 * app can hit the real Nike API while keeping CORS satisfied.
+	 * Dev-only switch for debugging against real Nike responses.
+	 *
+	 * Normal app flow should stay on `/api/upcoming-releases/:countryCode` (BFF/API route),
+	 * while SDK-level Nike calls are mocked by `snkrsSdkHandlers`.
+	 *
+	 * If page URL contains `?vite-proxy-nike=true`, this handler bypasses that Nike mock,
+	 * rewrites `https://api.nike.com/...` to `${window.location.origin}/api/nike/...`,
+	 * and lets Vite proxy it to the real Nike API.
+	 *
+	 * Related Vite proxy config: `vite.config.ts` -> `server.proxy['/api/nike']`.
 	 */
 	http.get(snkrsSdkHandlers[0].info.path, ({ request }) => {
 		const pageParams = new URLSearchParams(window.location.search)

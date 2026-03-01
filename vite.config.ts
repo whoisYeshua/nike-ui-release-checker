@@ -16,7 +16,10 @@ export default defineConfig({
 	plugins,
 	server: {
 		proxy: {
-			// Proxy Nike API requests to bypass CORS when using vite-proxy-nike query param
+			// Dev helper used by MSW mock bypass in `src/mocks/handlers.ts`.
+			// Triggered only when page URL has `?vite-proxy-nike=true`:
+			// handler rewrites `https://api.nike.com/...` -> `/api/nike/...`,
+			// then this proxy forwards to real Nike API (CORS-safe in dev).
 			'/api/nike': {
 				target: 'https://api.nike.com',
 				changeOrigin: true,

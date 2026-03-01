@@ -3,25 +3,25 @@ import { ReleasesStore } from '../releases.svelte'
 
 /** Провайдер сервисов с ленивой инициализацией */
 export class ServiceProvider {
-	static #countryStore: CountryStore
-	static #releasesStore: ReleasesStore
+	#countryStore: CountryStore | null = null
+	#releasesStore: ReleasesStore | null = null
 
 	constructor() {}
 
 	/** Получить CountryStore (singleton) */
 	getCountryStore(): CountryStore {
-		if (!ServiceProvider.#countryStore) {
-			ServiceProvider.#countryStore = new CountryStore()
+		if (!this.#countryStore) {
+			this.#countryStore = new CountryStore()
 		}
-		return ServiceProvider.#countryStore
+		return this.#countryStore
 	}
 
 	/** Получить ReleasesStore (singleton) */
 	getReleasesStore(): ReleasesStore {
-		if (!ServiceProvider.#releasesStore) {
+		if (!this.#releasesStore) {
 			const countryStore = this.getCountryStore()
-			ServiceProvider.#releasesStore = new ReleasesStore(countryStore)
+			this.#releasesStore = new ReleasesStore(countryStore)
 		}
-		return ServiceProvider.#releasesStore
+		return this.#releasesStore
 	}
 }
