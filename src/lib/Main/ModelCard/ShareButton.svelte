@@ -4,12 +4,13 @@
 	import { convertImageUrlToFile } from '$utils/convertImageUrlToFile'
 	import { formatDate } from '$utils/formatDate'
 
+	import type { HTMLButtonAttributes } from 'svelte/elements'
 	import ShareIcon from './icons/ShareIcon.svelte'
 
 	const isBrowser = typeof window !== 'undefined'
 	const webShareAPISupported = isBrowser && typeof navigator.share !== 'undefined'
 
-	interface Props {
+	interface Props extends Omit<HTMLButtonAttributes, 'onclick'> {
 		imageUrl?: string
 		releaseDate?: string
 		releaseName?: string
@@ -22,7 +23,7 @@
 		}>
 	}
 
-	let { imageUrl, releaseDate, releaseName, modelName, price, method, sizes }: Props = $props()
+	let { imageUrl, releaseDate, releaseName, modelName, price, method, sizes, ...rest }: Props = $props()
 
 	const formatReleaseText = () => {
 		let text = ''
@@ -88,7 +89,7 @@
 </script>
 
 {#if webShareAPISupported}
-	<Button onclick={handleShare} aria-label="Share this release">
+	<Button onclick={handleShare} aria-label="Share this release" {...rest}>
 		{#snippet icon()}
 			<ShareIcon />
 		{/snippet}

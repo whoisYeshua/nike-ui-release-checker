@@ -133,7 +133,7 @@
 					{/snippet}
 				</Button>
 			{/if}
-			<ShareButton {imageUrl} {releaseDate} {releaseName} {modelName} {price} {method} {sizes} />
+			<ShareButton style="margin-left: auto" {imageUrl} {releaseDate} {releaseName} {modelName} {price} {method} {sizes} />
 		</div>
 	</div>
 </article>
