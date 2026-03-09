@@ -1,6 +1,6 @@
 import { CountryStore } from '../country.svelte'
 import { ReleasesStore } from '../releases.svelte'
-import { NotificationScheduler } from './notification-scheduler.svelte'
+import { NotificationScheduler } from './notification-scheduler'
 import { SubscriptionStore } from './subscription-store.svelte'
 
 /** Провайдер сервисов с ленивой инициализацией */

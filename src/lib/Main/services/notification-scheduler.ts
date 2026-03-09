@@ -15,26 +15,7 @@ export class NotificationScheduler {
 	constructor(subscriptionStore: SubscriptionStore) {
 		this.#subscriptionStore = subscriptionStore
 
-		$effect(() => {
-			$inspect.trace('notification-scheduler')
-			const subs = this.#subscriptionStore.subscriptions
-
-			const subsByKey = new Map(
-				subs.map((sub) => [this.#getKey(sub.modelId, sub.countryCode), sub])
-			)
-
-			// Cancel only removed subscriptions
-			for (const [key, timeoutId] of this.#scheduled) {
-				if (subsByKey.has(key)) continue
-				this.#cancel(key, timeoutId)
-			}
-
-			// Schedule only newly added subscriptions
-			for (const [key, sub] of subsByKey) {
-				if (this.#scheduled.has(key)) continue
-				this.#schedule(sub)
-			}
-		})
+		subscriptionStore.onChange((subs) => this.#sync(subs))
 	}
 
 	async requestPermission(): Promise<boolean> {
@@ -42,16 +23,32 @@ export class NotificationScheduler {
 		if (Notification.permission === 'granted') return true
 		if (Notification.permission === 'denied') return false
 
-		return new Promise<boolean>((resolve) => {
-			Notification.requestPermission().then((permission) => {
-				resolve(permission === 'granted')
-			})
-		})
+		const { promise, resolve, reject } = Promise.withResolvers<boolean>()
+		Notification.requestPermission().then((permission) => {
+			resolve(permission === 'granted')
+		}, reject)
+		return promise
 	}
 
 	getPermissionStatus(): NotificationPermission | 'unsupported' {
 		if (!this.#isSupported()) return 'unsupported'
 		return Notification.permission
+	}
+
+	#sync(subs: Subscription[]): void {
+		const subsByKey = new Map(subs.map((sub) => [this.#getKey(sub.modelId, sub.countryCode), sub]))
+
+		// Cancel only removed subscriptions
+		for (const [key, timeoutId] of this.#scheduled) {
+			if (subsByKey.has(key)) continue
+			this.#cancel(key, timeoutId)
+		}
+
+		// Schedule only newly added subscriptions
+		for (const [key, sub] of subsByKey) {
+			if (this.#scheduled.has(key)) continue
+			this.#schedule(sub)
+		}
 	}
 
 	#schedule(subscription: Subscription): void {
@@ -86,7 +83,7 @@ export class NotificationScheduler {
 		const notificationTitle = this.#getNotificationTitle(subscription)
 
 		new Notification(notificationTitle, {
-			body: `${subscription.modelName} is releasing in ~1 hour!`,
+			body: `${subscription.modelName} is releasing in 1 hour!`,
 			icon: subscription.imageUrl
 		})
 	}

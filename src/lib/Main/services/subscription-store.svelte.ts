@@ -17,9 +17,12 @@ export interface Subscription {
 	subscribedAt: number
 }
 
+type SubscriptionListener = (subscriptions: Subscription[]) => void
+
 export class SubscriptionStore {
 	#storageKey = 'release-subscriptions'
 	#subscriptions = $state<Subscription[]>(this.#loadFromStorage())
+	#listeners = new Set<SubscriptionListener>()
 
 	get subscriptions(): Subscription[] {
 		return this.#subscriptions
@@ -38,11 +41,18 @@ export class SubscriptionStore {
 		)
 	}
 
+	onChange(listener: SubscriptionListener): () => void {
+		this.#listeners.add(listener)
+		listener(this.#subscriptions)
+		return () => this.#listeners.delete(listener)
+	}
+
 	subscribe(subscription: Omit<Subscription, 'subscribedAt'>) {
 		if (this.isSubscribed(subscription.modelId, subscription.countryCode)) return null
 		const completeSubscription = { ...subscription, subscribedAt: Date.now() }
 		this.#subscriptions = [...this.#subscriptions, completeSubscription]
 		this.#saveToStorage()
+		this.#notify()
 	}
 
 	unsubscribe(modelId: string, countryCode: string) {
@@ -51,6 +61,13 @@ export class SubscriptionStore {
 			(sub) => !(sub.modelId === modelId && sub.countryCode === countryCode)
 		)
 		this.#saveToStorage()
+		this.#notify()
+	}
+
+	#notify(): void {
+		for (const listener of this.#listeners) {
+			listener(this.#subscriptions)
+		}
 	}
 
 	#loadFromStorage(): Subscription[] {
