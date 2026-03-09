@@ -82,6 +82,7 @@
 		flex: 1;
 		min-height: 0;
 		overflow-y: auto;
+		padding: 0 0.25rem 0.25rem 0; /* padding right and bottom for buttons outline */
 	}
 
 	.footer {

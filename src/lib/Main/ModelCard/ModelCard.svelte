@@ -19,7 +19,6 @@
 		releaseName?: string
 		modelName?: string
 		modelId?: string
-		rawReleaseDate?: string
 		price?: string
 		method?: string
 		sizes?: Array<{
@@ -35,7 +34,6 @@
 		releaseName,
 		modelName,
 		modelId,
-		rawReleaseDate,
 		price,
 		method,
 		sizes,
@@ -70,7 +68,7 @@
 			modelId: modelId!,
 			modelName: modelName ?? '',
 			releaseName: releaseName ?? '',
-			releaseDate: rawReleaseDate ?? '',
+			releaseDate: releaseDate ?? '',
 			imageUrl: imageUrl ?? '',
 			countryCode
 		})
@@ -94,6 +92,8 @@
 
 		performSubscribe()
 	}
+
+	const isSubscribedButtonAvailable = $derived(releaseDate ? !isReleaseSoon : false)
 </script>
 
 <article class="card-container">
@@ -122,7 +122,7 @@
 		{/if}
 
 		<div class="button-row">
-			{#if !isReleaseSoon}
+			{#if isSubscribedButtonAvailable}
 				<Button text={isSubscribed ? 'Unsubscribe' : 'Subscribe'} onclick={handleSubscribe}>
 					{#snippet icon()}
 						{#if isSubscribed}

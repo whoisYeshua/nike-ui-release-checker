@@ -38,24 +38,19 @@ export class SubscriptionStore {
 		)
 	}
 
-	subscribe(subscription: Omit<Subscription, 'subscribedAt'>): Subscription | null {
+	subscribe(subscription: Omit<Subscription, 'subscribedAt'>) {
 		if (this.isSubscribed(subscription.modelId, subscription.countryCode)) return null
 		const completeSubscription = { ...subscription, subscribedAt: Date.now() }
 		this.#subscriptions = [...this.#subscriptions, completeSubscription]
 		this.#saveToStorage()
-		return completeSubscription
 	}
 
-	unsubscribe(modelId: string, countryCode: string): Subscription | null {
-		const existing = this.#subscriptions.find(
-			(sub) => sub.modelId === modelId && sub.countryCode === countryCode
-		)
-		if (!existing) return null
+	unsubscribe(modelId: string, countryCode: string) {
+		if (!this.isSubscribed(modelId, countryCode)) return
 		this.#subscriptions = this.#subscriptions.filter(
-			(sub) => sub.modelId !== modelId || sub.countryCode !== countryCode
+			(sub) => !(sub.modelId === modelId && sub.countryCode === countryCode)
 		)
 		this.#saveToStorage()
-		return existing
 	}
 
 	#loadFromStorage(): Subscription[] {

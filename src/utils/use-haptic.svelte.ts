@@ -1,18 +1,7 @@
 // Svelte 5 Rune mode composable for haptic feedback
 // TODO: import\execute only once
 
-/**
- * Determines whether the current device is running iOS or iPadOS.
- *
- * @returns {boolean} `true` if the device is iOS/iPadOS; otherwise, `false`.
- */
-const checkIosDevice = (): boolean => {
-	const ua = navigator.userAgent
-	const isIphone = /iPhone|iPod/.test(ua)
-	const isIpad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
-
-	return isIphone || isIpad
-}
+import { detectBrowser } from '$utils/detect-browser'
 
 let sharedHiddenSwitch: HTMLLabelElement | null = null
 let hiddenSwitchConsumers = 0
@@ -81,7 +70,7 @@ type UseHaptic = {
 export const useHaptic = ({ hapticDuration = 100 }: UseHapticOptions = {}): UseHaptic => {
 	const isBrowser = typeof window !== 'undefined'
 
-	const canVibrate = isBrowser && !checkIosDevice() && Boolean(navigator?.vibrate)
+	const canVibrate = isBrowser && detectBrowser().platform !== 'ios' && Boolean(navigator?.vibrate)
 
 	$effect(() => {
 		if (canVibrate) return

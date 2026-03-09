@@ -43,9 +43,11 @@
 	}
 </script>
 
-<button type="button" aria-label="My subscriptions" title="My subscriptions" onclick={handleOpen}>
-	<BellIcon />
-</button>
+<Button variant="light" aria-label="My subscriptions" title="My subscriptions" onclick={handleOpen}>
+	{#snippet icon()}
+		<BellIcon />
+	{/snippet}
+</Button>
 
 <Modal bind:dialog headerText="My Subscriptions">
 	{#if subscriptionStore.sortedSubscriptionsByCountry.length === 0}
@@ -80,29 +82,6 @@
 </Modal>
 
 <style>
-	button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		cursor: pointer;
-		border: none;
-		border-radius: var(--border-radius);
-		background: none;
-		padding: 0.375rem;
-		color: var(--icon-color);
-
-		&:focus-visible {
-			outline: 0.125rem solid var(--focus-ring-color);
-			outline-offset: 0.125rem;
-		}
-
-		@media (hover: hover) {
-			&:hover {
-				background-color: var(--divider-color);
-			}
-		}
-	}
-
 	.empty-message {
 		padding: 1rem 0;
 		color: var(--icon-color);
@@ -123,7 +102,7 @@
 		flex-direction: column;
 		gap: 1rem;
 		margin: 0;
-		padding: 0 0.25rem 0 0;
+		padding: 0;
 		list-style: none;
 	}
 

@@ -2,30 +2,41 @@ import { availableCountries } from '@nike-release-checker/sdk'
 
 import type { Subscription, SubscriptionStore } from './subscription-store.svelte'
 
+type ScheduleKey = string & { readonly __brand: unique symbol } // brand type
+
 const isBrowser = typeof window !== 'undefined'
 const HOUR = 60 * 60 * 1000
 const DAY = 24 * HOUR
 
-interface ScheduledNotification {
-	key: string
-	timeoutId: ReturnType<typeof setTimeout>
-}
-
 export class NotificationScheduler {
-	#scheduled: ScheduledNotification[] = []
+	#scheduled = new Map<ScheduleKey, ReturnType<typeof setTimeout>>()
 	#subscriptionStore: SubscriptionStore
 
 	constructor(subscriptionStore: SubscriptionStore) {
 		this.#subscriptionStore = subscriptionStore
 
 		$effect(() => {
+			$inspect.trace('notification-scheduler')
 			const subs = this.#subscriptionStore.subscriptions
-			this.#cancelAll()
-			this.#scheduleAll(subs)
+
+			const subsByKey = new Map(
+				subs.map((sub) => [this.#getKey(sub.modelId, sub.countryCode), sub])
+			)
+
+			// Cancel only removed subscriptions
+			for (const [key, timeoutId] of this.#scheduled) {
+				if (subsByKey.has(key)) continue
+				this.#cancel(key, timeoutId)
+			}
+
+			// Schedule only newly added subscriptions
+			for (const [key, sub] of subsByKey) {
+				if (this.#scheduled.has(key)) continue
+				this.#schedule(sub)
+			}
 		})
 	}
 
-	/** Cross-browser permission request (handles Safari callback pattern) */
 	async requestPermission(): Promise<boolean> {
 		if (!this.#isSupported()) return false
 		if (Notification.permission === 'granted') return true
@@ -45,7 +56,6 @@ export class NotificationScheduler {
 
 	#schedule(subscription: Subscription): void {
 		const key = this.#getKey(subscription.modelId, subscription.countryCode)
-		if (this.#scheduled.some((s) => s.key === key)) return
 
 		const releaseTime = new Date(subscription.releaseDate).getTime()
 		const isReleaseInPast = releaseTime <= Date.now()
@@ -58,23 +68,16 @@ export class NotificationScheduler {
 
 		const timeoutId = setTimeout(() => {
 			this.#showNotification(subscription)
-			this.#scheduled = this.#scheduled.filter((s) => s.key !== key)
+			this.#scheduled.delete(key)
+			this.#subscriptionStore.unsubscribe(subscription.modelId, subscription.countryCode)
 		}, delay)
 
-		this.#scheduled.push({ key, timeoutId })
+		this.#scheduled.set(key, timeoutId)
 	}
 
-	#scheduleAll(subscriptions: Subscription[]): void {
-		for (const sub of subscriptions) {
-			this.#schedule(sub)
-		}
-	}
-
-	#cancelAll(): void {
-		for (const entry of this.#scheduled) {
-			clearTimeout(entry.timeoutId)
-		}
-		this.#scheduled = []
+	#cancel(key: ScheduleKey, timeoutId: ReturnType<typeof setTimeout>): void {
+		clearTimeout(timeoutId)
+		this.#scheduled.delete(key)
 	}
 
 	#showNotification(subscription: Subscription): void {
@@ -96,8 +99,8 @@ export class NotificationScheduler {
 		return `${countryTitle}${subscription.releaseName}`
 	}
 
-	#getKey(modelId: string, countryCode: string): string {
-		return `${modelId}:${countryCode}`
+	#getKey(modelId: string, countryCode: string): ScheduleKey {
+		return `${modelId}:${countryCode}` as ScheduleKey
 	}
 
 	#isSupported(): boolean {
