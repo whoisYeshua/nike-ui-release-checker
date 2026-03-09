@@ -1,10 +1,14 @@
 import { CountryStore } from '../country.svelte'
 import { ReleasesStore } from '../releases.svelte'
+import { NotificationScheduler } from './notification-scheduler.svelte'
+import { SubscriptionStore } from './subscription-store.svelte'
 
 /** Провайдер сервисов с ленивой инициализацией */
 export class ServiceProvider {
 	#countryStore: CountryStore | null = null
 	#releasesStore: ReleasesStore | null = null
+	#subscriptionStore: SubscriptionStore | null = null
+	#notificationScheduler: NotificationScheduler | null = null
 
 	constructor() {}
 
@@ -23,5 +27,22 @@ export class ServiceProvider {
 			this.#releasesStore = new ReleasesStore(countryStore)
 		}
 		return this.#releasesStore
+	}
+
+	/** Получить SubscriptionStore (singleton) */
+	getSubscriptionStore(): SubscriptionStore {
+		if (!this.#subscriptionStore) {
+			this.#subscriptionStore = new SubscriptionStore()
+		}
+		return this.#subscriptionStore
+	}
+
+	/** Получить NotificationScheduler (singleton) */
+	getNotificationScheduler(): NotificationScheduler {
+		if (!this.#notificationScheduler) {
+			const subscriptionStore = this.getSubscriptionStore()
+			this.#notificationScheduler = new NotificationScheduler(subscriptionStore)
+		}
+		return this.#notificationScheduler
 	}
 }

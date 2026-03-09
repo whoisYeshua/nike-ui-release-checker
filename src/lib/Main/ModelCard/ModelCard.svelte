@@ -1,28 +1,31 @@
 <script lang="ts">
+	import * as Sentry from '@sentry/svelte'
 	import Button from '$lib/Button.svelte'
-	import { formatDate } from '$utils/formatDate'
-	import { getContrast, getTopLeftAverageColor } from '$utils/getImageData'
 
+	import { useCountryStore, useNotificationScheduler, useSubscriptionStore } from '../services'
 	import Divider from './Divider.svelte'
 	import BellAlertIcon from './icons/BellAlertIcon.svelte'
 	import BellSlashIcon from './icons/BellSlashIcon.svelte'
 	import ModelInfo from './ModelInfo.svelte'
+	import ReleaseDate from './ReleaseDate.svelte'
 	import ReleaseName from './ReleaseName.svelte'
 	import ShareButton from './ShareButton.svelte'
 	import StockInfo from './StockInfo.svelte'
+	import SubscribeInfoDialog from './SubscribeInfoDialog.svelte'
 
 	interface Props {
 		imageUrl?: string
 		releaseDate?: string
 		releaseName?: string
 		modelName?: string
+		modelId?: string
+		rawReleaseDate?: string
 		price?: string
 		method?: string
 		sizes?: Array<{
 			size: string
 			level: 'HIGH' | 'MEDIUM' | 'LOW' | 'OOS' | 'NA'
 		}>
-		isSubscribed?: boolean
 		isLazyImage?: boolean
 	}
 
@@ -31,17 +34,65 @@
 		releaseDate,
 		releaseName,
 		modelName,
+		modelId,
+		rawReleaseDate,
 		price,
 		method,
 		sizes,
-		isSubscribed,
 		isLazyImage
 	}: Props = $props()
 
-	let subscriptionState = $derived(isSubscribed ?? false)
+	const subscriptionStore = useSubscriptionStore()
+	const countryStore = useCountryStore()
+	const scheduler = useNotificationScheduler()
+	let countryCode = $derived(countryStore.value?.code!)
 
-	function handleSubscribe() {
-		subscriptionState = !subscriptionState
+	let isSubscribed = $derived(
+		modelId ? subscriptionStore.isSubscribed(modelId, countryCode) : false
+	)
+	let infoDialog: HTMLDialogElement = $state()!
+
+	const HOUR = 60 * 60 * 1000
+
+	const isReleaseSoon = $derived(
+		!!releaseDate && new Date(releaseDate).getTime() - Date.now() < 1 * HOUR
+	)
+
+	const INFO_SHOWN_KEY = 'notification-info-shown'
+
+	const performSubscribe = async () => {
+		Sentry.metrics.count('release.subscribed', 1, {
+			attributes: { model_name: modelName, release_name: releaseName, country_code: countryCode }
+		})
+		const isPermissionGranted = await scheduler.requestPermission()
+		if (!isPermissionGranted) return
+		subscriptionStore.subscribe({
+			modelId: modelId!,
+			modelName: modelName ?? '',
+			releaseName: releaseName ?? '',
+			releaseDate: rawReleaseDate ?? '',
+			imageUrl: imageUrl ?? '',
+			countryCode
+		})
+	}
+
+	const handleSubscribe = () => {
+		if (isSubscribed) {
+			subscriptionStore.unsubscribe(modelId!, countryCode)
+			Sentry.metrics.count('release.unsubscribed', 1, {
+				attributes: { model_name: modelName, release_name: releaseName }
+			})
+			return
+		}
+
+		const infoShown = localStorage.getItem(INFO_SHOWN_KEY)
+		if (!infoShown) {
+			localStorage.setItem(INFO_SHOWN_KEY, 'true')
+			infoDialog.showModal()
+			return
+		}
+
+		performSubscribe()
 	}
 </script>
 
@@ -54,16 +105,7 @@
 	/>
 
 	{#if imageUrl}
-		{#await getTopLeftAverageColor(imageUrl, { format: 'hex' }) then data}
-			<div
-				class="release-date"
-				style:--release-date-color={getContrast(data) === 'dark'
-					? 'var(--release-date-light-color)'
-					: 'var(--release-date-dark-color)'}
-			>
-				{formatDate(releaseDate)}
-			</div>
-		{/await}
+		<ReleaseDate {imageUrl} {releaseDate} />
 	{/if}
 
 	<div class="card-body">
@@ -80,19 +122,23 @@
 		{/if}
 
 		<div class="button-row">
-			<Button text={subscriptionState ? 'Unsubscribe' : 'Subscribe'} onclick={handleSubscribe}>
-				{#snippet icon()}
-					{#if subscriptionState}
-						<BellSlashIcon />
-					{:else}
-						<BellAlertIcon />
-					{/if}
-				{/snippet}
-			</Button>
+			{#if !isReleaseSoon}
+				<Button text={isSubscribed ? 'Unsubscribe' : 'Subscribe'} onclick={handleSubscribe}>
+					{#snippet icon()}
+						{#if isSubscribed}
+							<BellSlashIcon />
+						{:else}
+							<BellAlertIcon />
+						{/if}
+					{/snippet}
+				</Button>
+			{/if}
 			<ShareButton {imageUrl} {releaseDate} {releaseName} {modelName} {price} {method} {sizes} />
 		</div>
 	</div>
 </article>
+
+<SubscribeInfoDialog bind:dialog={infoDialog} onconfirm={performSubscribe} />
 
 <style>
 	.card-container {
@@ -118,17 +164,7 @@
 		min-height: 15.125rem;
 		max-height: 15.125rem;
 		object-fit: cover;
-	}
-
-	.release-date {
-		--release-date-light-color: hsl(210, 10%, 84%);
-		--release-date-dark-color: hsl(208, 37%, 20%);
-		position: absolute;
-		top: var(--release-card-padding);
-		left: var(--release-card-padding);
-		color: var(--release-date-color);
-		font-size: 20px;
-		line-height: 24px;
+		color: var(--black);
 	}
 
 	.card-body {

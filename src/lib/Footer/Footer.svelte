@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Github from './Github.svelte'
 	import SchemeSwitcher from './SchemeSwitcher/SchemeSwitcher.svelte'
+	import SubscriptionsButton from './SubscriptionsButton.svelte'
 </script>
 
 <footer>
+	<SubscriptionsButton />
 	<SchemeSwitcher />
 	<Github />
 </footer>
@@ -11,7 +13,7 @@
 <style>
 	footer {
 		display: grid;
-		grid-template-columns: auto auto;
+		grid-template-columns: auto auto auto;
 		justify-content: center;
 		align-items: center;
 		gap: 3rem;

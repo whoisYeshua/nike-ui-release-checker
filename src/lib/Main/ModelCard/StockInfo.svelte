@@ -18,7 +18,7 @@
 		NA: '#ababab'
 	}
 
-	function getStockLevelColor(stockLevel: string): string {
+	const getStockLevelColor = (stockLevel: string): string => {
 		return stockColorMap[stockLevel as keyof typeof stockColorMap] || 'var(--font-color)'
 	}
 

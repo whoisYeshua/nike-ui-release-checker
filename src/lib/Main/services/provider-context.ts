@@ -14,3 +14,13 @@ export const useReleasesStore = () => {
 	const provider = getServiceProviderContext()
 	return provider.getReleasesStore()
 }
+
+export const useSubscriptionStore = () => {
+	const provider = getServiceProviderContext()
+	return provider.getSubscriptionStore()
+}
+
+export const useNotificationScheduler = () => {
+	const provider = getServiceProviderContext()
+	return provider.getNotificationScheduler()
+}

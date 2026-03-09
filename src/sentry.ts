@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/svelte'
 
-export function initSentry() {
+export const initSentry = () => {
 	Sentry.init({
 		dsn: import.meta.env.VITE_SENTRY_DSN,
 		environment: import.meta.env.MODE,

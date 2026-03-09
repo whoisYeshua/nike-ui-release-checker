@@ -2,6 +2,9 @@
 	import Footer from './lib/Footer/Footer.svelte'
 	import Header from './lib/Header.svelte'
 	import Main from './lib/Main/Main.svelte'
+	import { setupServiceProvider } from './lib/Main/services'
+
+	setupServiceProvider()
 </script>
 
 <div class="wrapper">

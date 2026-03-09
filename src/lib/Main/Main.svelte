@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { formatCurrency } from '$utils/formatCurrency'
-	import { formatDate } from '$utils/formatDate'
 
 	import CountrySelect from './CountrySelect/CountrySelect.svelte'
 	import EmptyReleases from './EmptyReleases/EmptyReleases.svelte'
@@ -9,9 +8,7 @@
 	import ReleaseContainer from './ReleaseContainer/ReleaseContainer.svelte'
 	import ReleaseContainerItem from './ReleaseContainer/ReleaseContainerItem.svelte'
 	import ReleaseSkeleton from './ReleaseSkeleton.svelte'
-	import { setupServiceProvider, useReleasesStore } from './services'
-
-	setupServiceProvider()
+	import { useReleasesStore } from './services'
 
 	const releasesStore = useReleasesStore()
 </script>
@@ -26,18 +23,19 @@
 {/snippet}
 
 {#snippet loadedReleases()}
-	{#if releasesStore.data?.length}
+	{#if releasesStore.sortedData?.length}
 		<div class="releases__grid">
-			{#each releasesStore.data as release, releaseIndex (release.slug)}
+			{#each releasesStore.sortedData as release, releaseIndex (release.slug)}
 				<ReleaseContainer childrenCount={release.models.length}>
 					{#each release.models as model, modelIndex (model.id)}
 						<ReleaseContainerItem>
 							<ModelCard
+								modelId={model.id}
 								releaseName={release.title}
 								modelName={model.modelName}
 								method={model.launchView?.method}
 								price={formatCurrency(model.merchPrice.currentPrice, model.merchPrice.currency)}
-								releaseDate={formatDate(model?.launchView?.startEntryDate)}
+								releaseDate={model?.launchView?.startEntryDate}
 								sizes={model.sizes}
 								imageUrl={release.imageUrl}
 								isLazyImage={releaseIndex >= 8 || modelIndex >= 1}
@@ -59,7 +57,7 @@
 	<section class="releases">
 		<h2 class="releases__title">
 			Upcoming releases
-			<span class="releases__title-count">{releasesStore.data?.length}</span>
+			<span class="releases__title-count">{releasesStore.sortedData?.length}</span>
 		</h2>
 		{#if releasesStore.error}
 			<ErrorReleases onClick={releasesStore.refetch} isRefetching={releasesStore.isRefetching} />

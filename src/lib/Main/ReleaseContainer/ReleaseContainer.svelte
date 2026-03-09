@@ -72,6 +72,7 @@
 		scroll-behavior: smooth;
 		scroll-snap-type: x mandatory;
 		scrollbar-width: none;
+		padding-top: 0.5rem;
 	}
 
 	.models-count {

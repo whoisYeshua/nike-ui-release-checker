@@ -2,6 +2,7 @@
 	import * as Sentry from '@sentry/svelte'
 	import Button from '$lib/Button.svelte'
 	import { convertImageUrlToFile } from '$utils/convertImageUrlToFile'
+	import { formatDate } from '$utils/formatDate'
 
 	import ShareIcon from './icons/ShareIcon.svelte'
 
@@ -35,7 +36,7 @@
 
 		// Release date
 		if (releaseDate) {
-			text += `Release Date: ${releaseDate}\n`
+			text += `Release Date: ${formatDate(releaseDate)}\n`
 		}
 
 		// Price and method
