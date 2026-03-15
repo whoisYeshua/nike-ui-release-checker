@@ -1,36 +1,36 @@
 <script lang="ts">
-	import { detectBrowser } from '$utils/detect-browser'
+	import { detectBrowser } from '$utils/detectBrowser'
 
 	import type { Snippet } from 'svelte'
 
 	interface Props {
-		chrome_ios?: Snippet
-		chrome_android?: Snippet
-		chrome_desktop?: Snippet
-		safari_ios?: Snippet
-		safari_macos?: Snippet
-		firefox_ios?: Snippet
-		firefox_android?: Snippet
-		firefox_desktop?: Snippet
+		chromeIos?: Snippet
+		chromeAndroid?: Snippet
+		chromeDesktop?: Snippet
+		safariIos?: Snippet
+		safariMacos?: Snippet
+		firefoxIos?: Snippet
+		firefoxAndroid?: Snippet
+		firefoxDesktop?: Snippet
 		chrome?: Snippet
 		safari?: Snippet
 		firefox?: Snippet
-		fallback?: Snippet
+		children: Snippet
 	}
 
 	const {
-		chrome_ios,
-		chrome_android,
-		chrome_desktop,
-		safari_ios,
-		safari_macos,
-		firefox_ios,
-		firefox_android,
-		firefox_desktop,
+		chromeIos,
+		chromeAndroid,
+		chromeDesktop,
+		safariIos,
+		safariMacos,
+		firefoxIos,
+		firefoxAndroid,
+		firefoxDesktop,
 		chrome,
 		safari,
 		firefox,
-		fallback
+		children: fallback
 	}: Props = $props()
 
 	const { browser, platform } = detectBrowser()
@@ -40,23 +40,23 @@
 	const resolved: Snippet | undefined = $derived.by(() => {
 		let specific: Snippet | undefined
 		if (browser === 'chrome') {
-			if (platform === 'ios') specific = chrome_ios
-			else if (platform === 'android') specific = chrome_android
-			else if (isDesktop) specific = chrome_desktop
+			if (platform === 'ios') specific = chromeIos
+			else if (platform === 'android') specific = chromeAndroid
+			else if (isDesktop) specific = chromeDesktop
 		} else if (browser === 'safari') {
-			if (platform === 'ios') specific = safari_ios
-			else if (platform === 'macos') specific = safari_macos
+			if (platform === 'ios') specific = safariIos
+			else if (isDesktop) specific = safariMacos
 		} else if (browser === 'firefox') {
-			if (platform === 'ios') specific = firefox_ios
-			else if (platform === 'android') specific = firefox_android
-			else if (isDesktop) specific = firefox_desktop
+			if (platform === 'ios') specific = firefoxIos
+			else if (platform === 'android') specific = firefoxAndroid
+			else if (isDesktop) specific = firefoxDesktop
 		}
 
 		if (specific) return specific
 
-		if (browser === 'chrome') return chrome
-		if (browser === 'safari') return safari
-		if (browser === 'firefox') return firefox
+		if (browser === 'chrome' && chrome) return chrome
+		if (browser === 'safari' && safari) return safari
+		if (browser === 'firefox' && firefox) return firefox
 
 		return fallback
 	})

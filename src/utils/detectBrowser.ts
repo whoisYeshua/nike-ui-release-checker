@@ -6,8 +6,6 @@ export type BrowserInfo = {
 	platform: Platform
 }
 
-export const isBrowser = typeof window !== 'undefined'
-
 export function detectBrowser(): BrowserInfo {
 	if (typeof navigator === 'undefined') return { browser: 'other', platform: 'other' }
 

@@ -1,7 +1,7 @@
 // Svelte 5 Rune mode composable for haptic feedback
 // TODO: import\execute only once
 
-import { detectBrowser } from '$utils/detect-browser'
+import { detectBrowser } from '$utils/detectBrowser'
 
 let sharedHiddenSwitch: HTMLLabelElement | null = null
 let hiddenSwitchConsumers = 0

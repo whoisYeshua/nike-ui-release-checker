@@ -11,7 +11,7 @@
 	import ReleaseName from './ReleaseName.svelte'
 	import ShareButton from './ShareButton.svelte'
 	import StockInfo from './StockInfo.svelte'
-	import SubscribeInfoDialog from './SubscribeInfoDialog.svelte'
+	import SubscribeInfoDialog from './SubscribeInfoDialog/SubscribeInfoDialog.svelte'
 
 	interface Props {
 		imageUrl?: string
@@ -56,7 +56,7 @@
 		!!releaseDate && new Date(releaseDate).getTime() - Date.now() < 1 * HOUR
 	)
 
-	const INFO_SHOWN_KEY = 'notification-info-shown'
+	const INFO_ACCEPTED_KEY = 'notification-info-accepted'
 
 	const performSubscribe = async () => {
 		Sentry.metrics.count('release.subscribed', 1, {
@@ -64,6 +64,7 @@
 		})
 		const isPermissionGranted = await scheduler.requestPermission()
 		if (!isPermissionGranted) return
+		localStorage.setItem(INFO_ACCEPTED_KEY, 'true')
 		subscriptionStore.subscribe({
 			modelId: modelId!,
 			modelName: modelName ?? '',
@@ -83,9 +84,8 @@
 			return
 		}
 
-		const infoShown = localStorage.getItem(INFO_SHOWN_KEY)
-		if (!infoShown) {
-			localStorage.setItem(INFO_SHOWN_KEY, 'true')
+		const infoAccepted = localStorage.getItem(INFO_ACCEPTED_KEY)
+		if (!infoAccepted) {
 			infoDialog.showModal()
 			return
 		}
