@@ -23,9 +23,9 @@
 {/snippet}
 
 {#snippet loadedReleases()}
-	{#if releasesStore.sortedData?.length}
+	{#if releasesStore.data?.length}
 		<div class="releases__grid">
-			{#each releasesStore.sortedData as release, releaseIndex (release.slug)}
+			{#each releasesStore.data as release, releaseIndex (release.slug)}
 				<ReleaseContainer childrenCount={release.models.length}>
 					{#each release.models as model, modelIndex (model.id)}
 						<ReleaseContainerItem>

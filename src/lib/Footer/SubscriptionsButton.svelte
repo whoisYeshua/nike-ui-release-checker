@@ -64,7 +64,7 @@
 								<div class="subscription-info">
 									<span class="model-name">{modelName}</span>
 									<span class="release-details">{releaseName}</span>
-									<span class="release-details">{formatDate(releaseDate)}</span>
+									<time class="release-details" datetime={releaseDate}>{formatDate(releaseDate)}</time>
 								</div>
 								<Button
 									onclick={() =>

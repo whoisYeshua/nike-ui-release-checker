@@ -20,29 +20,23 @@
 	let now = $state(Date.now())
 
 	const countdown = $derived.by(() => {
-		if (!releaseDate) return { label: '', delay: 0 }
+		if (!releaseDate) return null
 		const diffMs = new Date(releaseDate).getTime() - now
 
-		if (diffMs <= 0) return { label: `✅ Released at ${formatDate(releaseDate)}`, delay: 0 }
-		if (diffMs > 4 * HOUR) return { label: formatDate(releaseDate), delay: diffMs - 4 * HOUR }
+		if (diffMs <= 0) return { type: 'released' as const, delay: 0 }
+		if (diffMs > 4 * HOUR) return { type: 'upcoming' as const, delay: diffMs - 4 * HOUR }
 		if (diffMs > 10 * MINUTE) {
 			const hours = Math.floor(diffMs / HOUR)
 			const minutes = Math.floor((diffMs % HOUR) / MINUTE)
-			return {
-				label: `Release in ${durationFormatter.format({ hours, minutes })} (${formatDate(releaseDate, { month: undefined, day: undefined })})`,
-				delay: MINUTE
-			}
+			return { type: 'soon' as const, hours, minutes, delay: MINUTE }
 		}
 		const minutes = Math.floor(diffMs / MINUTE)
 		const seconds = Math.floor((diffMs % MINUTE) / SECOND)
-		return {
-			label: `🔥 ${durationFormatter.format({ minutes, seconds })}`,
-			delay: SECOND
-		}
+		return { type: 'imminent' as const, minutes, seconds, delay: SECOND }
 	})
 
 	$effect(() => {
-		if (countdown.delay <= 0) return
+		if (!countdown || countdown.delay <= 0) return
 		const timeoutId = setTimeout(() => {
 			now = Date.now()
 		}, countdown.delay)
@@ -57,7 +51,15 @@
 			? 'var(--release-date-light-color)'
 			: 'var(--release-date-dark-color)'}
 	>
-		{countdown.label}
+		{#if countdown?.type === 'released'}
+			✅ Released at <time datetime={releaseDate}>{formatDate(releaseDate)}</time>
+		{:else if countdown?.type === 'upcoming'}
+			<time datetime={releaseDate}>{formatDate(releaseDate)}</time>
+		{:else if countdown?.type === 'soon'}
+			Release in <time datetime="PT{countdown.hours}H{countdown.minutes}M">{durationFormatter.format({ hours: countdown.hours, minutes: countdown.minutes })}</time> (<time datetime={releaseDate}>{formatDate(releaseDate, { month: undefined, day: undefined })}</time>)
+		{:else if countdown?.type === 'imminent'}
+			🔥 <time datetime="PT{countdown.minutes}M{countdown.seconds}S">{durationFormatter.format({ minutes: countdown.minutes, seconds: countdown.seconds })}</time>
+		{/if}
 	</div>
 {/await}
 
