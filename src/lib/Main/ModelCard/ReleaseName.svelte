@@ -7,10 +7,10 @@
 	let { releaseName, modelName }: Props = $props()
 </script>
 
-<div class="release-name-container">
+<hgroup class="release-name-container">
 	<p class="product-category">{releaseName}</p>
 	<h3 class="product-name">{modelName}</h3>
-</div>
+</hgroup>
 
 <style>
 	.release-name-container {

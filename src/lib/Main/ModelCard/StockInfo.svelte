@@ -28,7 +28,7 @@
 </script>
 
 <div class="size-stock">
-	<div class="size-stock__header">Size — Stock:</div>
+	<p class="size-stock__header">Size — Stock:</p>
 	<div class="size-stock__grid">
 		{#each sizes as { size, level } (size)}
 			<div class="size-stock__item" style:color={getStockLevelColor(level)}>
